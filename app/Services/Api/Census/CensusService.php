@@ -7,6 +7,7 @@ use App\Models\Patients;
 use App\Repositories\Api\Census\CensusRepository;
 use App\Repositories\Api\Internments\InternmentsRepository;
 use App\Repositories\Api\Patients\PatientsRepository;
+use App\Services\Api\Drafts\DraftsService;
 use App\Services\Api\Patients\PatientsService;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
@@ -15,21 +16,22 @@ class CensusService
 {
     protected CensusRepository $repository;
     protected PatientsService $patientsService;
+    protected DraftsService $draftsService;
     protected InternmentsRepository $internmentsRepository;
-    protected Drafts $draftsModel;
 
     public function __construct
     (
         CensusRepository      $repository,
         Drafts                $draftsModel,
         PatientsService       $patientsService,
+        DraftsService         $draftsService,
         InternmentsRepository $internmentsRepository
     )
 
     {
         $this->repository = $repository;
-        $this->draftsModel = $draftsModel;
         $this->patientsService = $patientsService;
+        $this->draftsService = $draftsService;
         $this->internmentsRepository = $internmentsRepository;
     }
 
@@ -72,7 +74,7 @@ class CensusService
                 $draft['inconsistencies']['internment'] = $internmentValidation['inconsistencies'];
             }
 
-            $draft = $this->mountDraft($draft, $patient, $internment);
+            $draft = $draft + $internment;
 
             return $this->persistDraft($draft);
 
@@ -95,14 +97,9 @@ class CensusService
         return $output;
     }
 
-    private function mountDraft($draft, $patient, $internment)
+    private function persistDraft(array $data)
     {
-
-    }
-
-    private function persistDraft()
-    {
-        
+        return $this->draftsService->create($data);
     }
 
     private function searchPatientByNameAndBirth($data)
