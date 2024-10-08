@@ -25,4 +25,9 @@ class Patients extends Model
     {
         return $this->hasMany(Internments::class, 'patient_id', 'id');
     }
+
+    public function drafts()
+    {
+        return $this->hasMany(Drafts::class, 'patient_id', 'id');
+    }
 }

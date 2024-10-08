@@ -47,4 +47,9 @@ class PatientsService
             return $this->model::where('id',$id)->firstOrFail()->delete();
         });
     }
+
+    public function findByNameAndBirth(array $data)
+    {
+        return $this->repository->findByNameAndBirth($data);
+    }
 }

@@ -22,4 +22,19 @@ class InternmentsRepository
     {
         return $this->model::where('id', $id)->firstOrFail();
     }
+
+    public function findByGuide($guide)
+    {
+        return $this->model::where('guide', $guide)->first();
+    }
+
+    public function intervalHasConflicts($id, $data)
+    {
+        if (!array_key_exists('entry', $data) || !array_key_exists('exit', $data)) {
+            throw new \Exception('Invalid interval data');
+        }
+
+        return $this->model::hasConflicts($id, $data['entry'], $data['exit']);
+
+    }
 }
