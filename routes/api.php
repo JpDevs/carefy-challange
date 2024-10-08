@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\Patients\PatientsController;
+use App\Http\Controllers\Api\Internments\InternmentsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,3 +17,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+Route::resource('/patients', PatientsController::class)->except(['create', 'edit']);
+Route::resource('/internments', InternmentsController::class)->except(['create', 'edit']);;
