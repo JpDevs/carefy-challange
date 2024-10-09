@@ -1,33 +1,54 @@
 <?php
 
-namespace App\Http\Controllers\Api\Internments;
+namespace App\Http\Controllers\Api\Drafts;
 
 use App\Http\Controllers\Controller;
-use App\Services\Api\Internments\InternmentsService;
+use App\Services\Api\Drafts\DraftsService;
+use App\Services\Api\Patients\PatientsService;
 use Illuminate\Http\Request;
 
-class InternmentsController extends Controller
+class DraftsController extends Controller
 {
-    protected InternmentsService $service;
+    protected DraftsService $service;
+    protected PatientsService $patientsService;
 
     protected array $rules = [
-        'patient_id' => ['required','integer'],
-        'guide' => ['required','string'],
-        'entry' => ['required','date'],
-        'exit' => ['required','date'],
+        'patient_id' => ['integer'],
+        'guide' => ['string'],
+        'entry' => ['date'],
+        'exit' => ['date'],
     ];
 
-    public function __construct(InternmentsService $service)
+    public function __construct(DraftsService $service, PatientsService $patientsService)
     {
         $this->service = $service;
+        $this->patientsService = $patientsService;
     }
 
+    /**
+     * Display a listing of the resource.
+     */
     public function index(Request $request): \Illuminate\Http\JsonResponse
     {
         try {
             $rules = ['perPage' => 'integer'];
             $validated = $this->validated($rules, $request->all());
             $response = $this->service->getAll($validated);
+            return $this->setResponse($response);
+        } catch (\Exception $e) {
+            return $this->setError($e);
+        }
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create(Request $request): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $rules = ['perPage' => 'integer'];
+            $validated = $this->validated($rules, $request->all());
+            $response['patients'] = $this->patientsService->getAll($validated);
             return $this->setResponse($response);
         } catch (\Exception $e) {
             return $this->setError($e);
@@ -51,10 +72,27 @@ class InternmentsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $id): \Illuminate\Http\JsonResponse
+    public function show(string $id): \Illuminate\Http\JsonResponse
     {
         try {
             $response = $this->service->show($id);
+            return $this->setResponse($response);
+        } catch (\Exception $e) {
+            return $this->setError($e);
+        }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id, Request $request): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $rules = ['perPage' => 'integer'];
+            $validated = $this->validated($rules, $request->all());
+
+            $response['draft'] = $this->service->show($id);
+            $response['patients'] = $this->patientsService->getAll($validated);
             return $this->setResponse($response);
         } catch (\Exception $e) {
             return $this->setError($e);

@@ -37,7 +37,7 @@ class InternmentsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): \Illuminate\Http\JsonResponse
+    public function store(Request $request)
     {
         try {
             $validated = $this->validated();
@@ -51,7 +51,7 @@ class InternmentsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $id): \Illuminate\Http\JsonResponse
+    public function show(int $id)
     {
         try {
             $response = $this->service->show($id);
@@ -62,9 +62,17 @@ class InternmentsController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        return [];
+    }
+
+    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): \Illuminate\Http\JsonResponse
+    public function update(Request $request, string $id)
     {
         try {
             $validated = $this->validated();
@@ -78,7 +86,7 @@ class InternmentsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): \Illuminate\Http\JsonResponse
+    public function destroy(string $id)
     {
         try {
             $response = $this->service->delete($id);

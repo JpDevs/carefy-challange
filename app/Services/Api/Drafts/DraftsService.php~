@@ -40,11 +40,4 @@ class DraftsService
             return $this->model::where('id', $id)->firstOrFail()->delete();
         });
     }
-
-    public function update(int $id, array $validated)
-    {
-        return DB::transaction(function () use ($id, $validated) {
-            return $this->model::where('id', $id)->firstOrFail()->update($validated);
-        });
-    }
 }

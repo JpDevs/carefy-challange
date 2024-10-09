@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Patients\PatientsController;
 use App\Http\Controllers\Api\Internments\InternmentsController;
 use App\Http\Controllers\Api\Census\CensusController;
-use App\Http\Controllers\Api\Drafts\DraftsController;
+use App\Http\Controllers\Api\Drafs\DraftsController;
 
 /*
 |--------------------------------------------------------------------------

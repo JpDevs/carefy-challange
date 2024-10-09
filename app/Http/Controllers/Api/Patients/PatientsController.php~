@@ -1,27 +1,30 @@
 <?php
 
-namespace App\Http\Controllers\Api\Internments;
+namespace App\Http\Controllers\Api\Patients;
 
 use App\Http\Controllers\Controller;
-use App\Services\Api\Internments\InternmentsService;
+use App\Services\Api\Patients\PatientsService;
 use Illuminate\Http\Request;
 
-class InternmentsController extends Controller
+class PatientsController extends Controller
 {
-    protected InternmentsService $service;
+    protected PatientsService $service;
 
     protected array $rules = [
-        'patient_id' => ['required','integer'],
-        'guide' => ['required','string'],
-        'entry' => ['required','date'],
-        'exit' => ['required','date'],
+        'code' => ['required', 'string'],
+        'name' => ['required', 'string'],
+        'birth' => ['required', 'date']
     ];
 
-    public function __construct(InternmentsService $service)
+    public function __construct(PatientsService $service)
     {
         $this->service = $service;
     }
 
+
+    /**
+     * Display a listing of the resource.
+     */
     public function index(Request $request): \Illuminate\Http\JsonResponse
     {
         try {
@@ -64,7 +67,7 @@ class InternmentsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): \Illuminate\Http\JsonResponse
+    public function update(Request $request, string $id)
     {
         try {
             $validated = $this->validated();
@@ -78,7 +81,7 @@ class InternmentsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): \Illuminate\Http\JsonResponse
+    public function destroy(string $id)
     {
         try {
             $response = $this->service->delete($id);
