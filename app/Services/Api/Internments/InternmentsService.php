@@ -32,6 +32,9 @@ class InternmentsService
         return $this->repository->findByGuide($guide);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function intervalHasConflicts($id, $data)
     {
         return $this->repository->intervalHasConflicts($id, $data);
