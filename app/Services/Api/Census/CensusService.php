@@ -72,9 +72,6 @@ class CensusService
             if (isset($draft['inconsistencies'])) {
                 $draft['inconsistencies'] = json_encode($draft['inconsistencies']);
             }
-            if($internment['guide'] == 752366 && empty($draft['patient_data'])) {
-//                dd($draft);
-            }
             $draft = $draft + $internment;
             $drafts[] = $this->persistDraft($draft);
         }
