@@ -1,5 +1,5 @@
 <?php
-//teste
+
 namespace App\Services\Api\Census;
 
 use App\Services\Api\Internments\InternmentsService;
@@ -48,13 +48,13 @@ class CensusService
                 'exit' => $this->parseDate($row['saida'])
             ];
 
-            $patientValidation = $this->validatePatient($patient);
+            $patientValidation = $this->patientsService->validatePatient($patient);
 
             if ($patientValidation['status'] === false) {
                 $draft['inconsistencies']['patient'] = $patientValidation['inconsistence'];
                 $draft['patient_data'] = json_encode($patient);
             } else {
-                $patientRow = $this->searchPatientByNameAndBirth($patient);
+                $patientRow = $this->patientsService->findByNameAndBirth($patient);
                 if (empty($patientRow)) {
                     $patient['birth'] = $this->parseDate($patient['birth']);
                     $patient = $this->patientsService->create($patient);
@@ -97,31 +97,6 @@ class CensusService
     private function persistDraft(array $data)
     {
         return $this->draftsService->create($data);
-    }
-
-    private function searchPatientByNameAndBirth($data)
-    {
-        return $this->patientsService->findByNameAndBirth($data);
-    }
-
-    private function validatePatient(array $data): array
-    {
-        $patient = $this->searchPatientByNameAndBirth($data);
-        if (empty($patient)) {
-            return [
-                'status' => true
-            ];
-        }
-        if ($patient['code'] != $data['code']) {
-            return [
-                'status' => false,
-                'inconsistence' => ['patientCode']
-            ];
-        }
-
-        return [
-            'status' => true,
-        ];
     }
 
     private function parseDate(string $date): string

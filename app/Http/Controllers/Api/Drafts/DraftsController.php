@@ -9,14 +9,15 @@ use Illuminate\Http\Request;
 
 class DraftsController extends Controller
 {
+
     protected DraftsService $service;
     protected PatientsService $patientsService;
 
     protected array $rules = [
         'patient_id' => ['integer'],
-        'guide' => ['string'],
-        'entry' => ['date'],
-        'exit' => ['date'],
+        'guide' => ['string', 'required'],
+        'entry' => ['date', 'required'],
+        'exit' => ['date', 'required'],
     ];
 
     public function __construct(DraftsService $service, PatientsService $patientsService)
@@ -120,6 +121,16 @@ class DraftsController extends Controller
     {
         try {
             $response = $this->service->delete($id);
+            return $this->setResponse($response);
+        } catch (\Exception $e) {
+            return $this->setError($e);
+        }
+    }
+
+    public function publish($id): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $response = $this->service->publish($id);
             return $this->setResponse($response);
         } catch (\Exception $e) {
             return $this->setError($e);

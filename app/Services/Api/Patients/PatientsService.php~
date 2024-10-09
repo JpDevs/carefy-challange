@@ -17,26 +17,6 @@ class PatientsService
         $this->model = $model;
     }
 
-    public function validatePatient(array $data): array
-    {
-        $patient = $this->findByNameAndBirth($data);
-        if (empty($patient)) {
-            return [
-                'status' => true
-            ];
-        }
-        if ($patient['code'] != $data['code']) {
-            return [
-                'status' => false,
-                'inconsistence' => ['patientCode']
-            ];
-        }
-
-        return [
-            'status' => true,
-        ];
-    }
-
     public function getAll(array $pagination)
     {
         return $this->repository->getAll($pagination);
@@ -72,5 +52,4 @@ class PatientsService
     {
         return $this->repository->findByNameAndBirth($data);
     }
-
 }

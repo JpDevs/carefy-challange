@@ -9,14 +9,15 @@ use Illuminate\Http\Request;
 
 class DraftsController extends Controller
 {
+
     protected DraftsService $service;
     protected PatientsService $patientsService;
 
-    protected $rules = [
+    protected array $rules = [
         'patient_id' => ['integer'],
-        'guide' => ['string'],
-        'entry' => ['date'],
-        'exit' => ['date'],
+        'guide' => ['string','required'],
+        'entry' => ['date','required'],
+        'exit' => ['date','required'],
     ];
 
     public function __construct(DraftsService $service, PatientsService $patientsService)
@@ -28,7 +29,7 @@ class DraftsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): \Illuminate\Http\JsonResponse
     {
         try {
             $rules = ['perPage' => 'integer'];
@@ -43,7 +44,7 @@ class DraftsController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create(Request $request): \Illuminate\Http\JsonResponse
     {
         try {
             $rules = ['perPage' => 'integer'];
@@ -58,7 +59,7 @@ class DraftsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\JsonResponse
     {
         try {
             $validated = $this->validated();
@@ -72,7 +73,7 @@ class DraftsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id): \Illuminate\Http\JsonResponse
     {
         try {
             $response = $this->service->show($id);
@@ -85,7 +86,7 @@ class DraftsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id, Request $request)
+    public function edit(string $id, Request $request): \Illuminate\Http\JsonResponse
     {
         try {
             $rules = ['perPage' => 'integer'];
@@ -102,7 +103,7 @@ class DraftsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id): \Illuminate\Http\JsonResponse
     {
         try {
             $validated = $this->validated();
@@ -116,10 +117,20 @@ class DraftsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): \Illuminate\Http\JsonResponse
     {
         try {
             $response = $this->service->delete($id);
+            return $this->setResponse($response);
+        } catch (\Exception $e) {
+            return $this->setError($e);
+        }
+    }
+
+    public function publish($id): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $response = $this->service->publish($id);
             return $this->setResponse($response);
         } catch (\Exception $e) {
             return $this->setError($e);

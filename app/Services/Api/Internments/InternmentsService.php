@@ -17,6 +17,47 @@ class InternmentsService
         $this->model = $model;
     }
 
+    /**
+     * @throws \Exception
+     */
+    public function validateInternment(array $internment, $patient): array
+    {
+        $inconsistences = [];
+
+        $sameGuide = !empty($this->findByGuide($internment['guide']));
+
+        if ($sameGuide) {
+            $inconsistences[] = 'sameGuide';
+        }
+
+        if ($internment['entry'] < $patient['birth']) {
+            $inconsistences[] = 'entryMinorBirth';
+        };
+
+        if ($internment['exit'] <= $internment['entry']) {
+            $inconsistences[] = 'exitMinorEqualEntry';
+        }
+
+        if (isset($patient['id'])) {
+            $hasConflict = $this->intervalHasConflicts($patient['id'], $internment);
+            if ($hasConflict) {
+                $inconsistences[] = 'intervalConflicts';
+            }
+        }
+
+        if (empty($inconsistences)) {
+            return [
+                'status' => true
+            ];
+        }
+
+        return [
+            'status' => false,
+            'inconsistences' => $inconsistences
+        ];
+
+    }
+
     public function getAll(array $pagination)
     {
         return $this->repository->getAll($pagination);
@@ -42,6 +83,9 @@ class InternmentsService
 
     public function create(array $validated)
     {
+        if (isset($validated['id'])) {
+            unset($validated['id']);
+        }
         return DB::transaction(function () use ($validated) {
             return $this->model::create($validated);
         });
@@ -57,7 +101,7 @@ class InternmentsService
     public function delete(string $id)
     {
         return DB::transaction(function () use ($id) {
-            return $this->model::where('id',$id)->firstOrFail()->delete();
+            return $this->model::where('id', $id)->firstOrFail()->delete();
         });
     }
 }

@@ -14,11 +14,11 @@ class DraftsRepository
 
     public function getAll(array $pagination)
     {
-        return $this->model::paginate($pagination['perPage'] ?? 15);
+        return $this->model::with('patient')->orderBy('id','desc')->paginate($pagination['perPage'] ?? 15);
     }
 
     public function show(string $id)
     {
-        return $this->model::find($id);
+        return $this->model::with('patient')->where('id',$id)->firstOrFail();
     }
 }

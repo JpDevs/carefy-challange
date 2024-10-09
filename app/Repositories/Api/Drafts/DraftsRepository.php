@@ -7,6 +7,7 @@ use App\Models\Drafts;
 class DraftsRepository
 {
     protected Drafts $model;
+
     public function __construct(Drafts $model)
     {
         $this->model = $model;
@@ -14,11 +15,11 @@ class DraftsRepository
 
     public function getAll(array $pagination)
     {
-        return $this->model::paginate($pagination['perPage'] ?? 15);
+        return $this->model::with('patient')->orderBy('id', 'desc')->paginate($pagination['perPage'] ?? 15);
     }
 
     public function show(string $id)
     {
-        return $this->model::where($id)->firstOrFail();
+        return $this->model::with('patient')->where('id', $id)->firstOrFail();
     }
 }
