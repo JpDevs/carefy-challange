@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('patient_id')->nullable();
             $table->json('patient_data')->nullable();
-            $table->string('guide')->unique();
+            $table->string('guide');
             $table->date('entry');
             $table->date('exit');
             $table->json('inconsistencies')->nullable();

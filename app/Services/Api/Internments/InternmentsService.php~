@@ -32,11 +32,6 @@ class InternmentsService
         return $this->repository->findByGuide($guide);
     }
 
-    public function intervalHasConflicts($id, $data)
-    {
-        return $this->repository->intervalHasConflicts($id, $data);
-    }
-
     public function create(array $validated)
     {
         return DB::transaction(function () use ($validated) {
