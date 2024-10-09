@@ -1,5 +1,5 @@
 <?php
-//teste
+
 namespace App\Services\Api\Census;
 
 use App\Services\Api\Internments\InternmentsService;
