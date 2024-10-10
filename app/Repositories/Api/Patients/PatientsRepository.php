@@ -37,4 +37,9 @@ class PatientsRepository
     {
         return $this->model::find($id)->internments()->orderBy('id', 'desc')->paginate(5);
     }
+
+    public function getCount()
+    {
+        return $this->model::count();
+    }
 }

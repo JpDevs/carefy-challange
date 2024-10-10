@@ -15,7 +15,7 @@ class InternmentsRepository
 
     public function getAll(array $pagination)
     {
-        return $this->model::with('patient')->orderBy('id','desc')->paginate($pagination['perPage'] ?? 15);
+        return $this->model::with('patient')->orderBy('id', 'desc')->paginate($pagination['perPage'] ?? 15);
     }
 
     public function show(int $id)
@@ -36,5 +36,15 @@ class InternmentsRepository
 
         return $this->model::hasConflicts($id, $data['entry'], $data['exit']);
 
+    }
+
+    public function getCount()
+    {
+        return $this->model::where('exit', '<', now())->count();
+    }
+
+    public function getDoneCount()
+    {
+        return $this->model::where('exit', '>=', now())->count();
     }
 }

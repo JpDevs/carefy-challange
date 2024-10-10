@@ -111,4 +111,14 @@ class InternmentsService
             return $this->model::where('id', $id)->firstOrFail()->delete();
         });
     }
+
+    public function getCount()
+    {
+        return $this->repository->getCount();
+    }
+
+    public function getDoneCount()
+    {
+        return $this->repository->getDoneCount();
+    }
 }

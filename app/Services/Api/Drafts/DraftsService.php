@@ -115,4 +115,9 @@ class DraftsService
         });
 
     }
+
+    public function getCount()
+    {
+        return $this->repository->getCount();
+    }
 }

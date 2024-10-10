@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Census\CensusController;
 use App\Http\Controllers\Api\Internments\InternmentsController;
 use App\Http\Controllers\Api\Patients\PatientsController;
 use App\Http\Controllers\Api\Drafts\DraftsController;
+use App\Http\Controllers\Api\Statistics\StatisticsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,13 +19,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::resource('/patients', PatientsController::class)->except(['create', 'edit']);
-Route::get('/patients/{id}/internments', [PatientsController::class, 'getInternments']);
-Route::resource('/internments', InternmentsController::class)->except(['create', 'edit']);;
+Route::resource('/patients', PatientsController::class)->except(['create', 'edit'])->names(['index' => 'patients', 'store' => 'patients.store', 'show' => 'patients.show', 'update' => 'patients.update', 'destroy' => 'patients.destroy']);
+Route::resource('/internments', InternmentsController::class)->except(['create', 'edit'])->names(['index' => 'internments.index', 'store' => 'internments.store', 'show' => 'internments.show', 'update' => 'internments.update', 'destroy' => 'internments.destroy']);
+Route::resource('/drafts', DraftsController::class)->names(['index' => 'drafts', 'store' => 'drafts.store', 'show' => 'drafts.show', 'update' => 'drafts.update', 'destroy' => 'drafts.destroy']);
+
+Route::get('/patients/{id}/internments', [PatientsController::class, 'getInternments'])->name('patients.internments');
+Route::get('/statistics', [StatisticsController::class, 'getStatistics'])->name('statistics');
 
 
-Route::post('/census/upload', [CensusController::class, 'uploadFile']);
+Route::post('/census/upload', [CensusController::class, 'uploadFile'])->name('census.upload');
+Route::post('/drafts/{id}/publish', [DraftsController::class, 'publish'])->name('drafts.publish');
+Route::post('/drafts/publish', [DraftsController::class, 'publishAll'])->name('drafts.publishAll');
 
-Route::resource('/drafts', DraftsController::class);
-Route::post('/drafts/{id}/publish', [DraftsController::class, 'publish']);
-Route::post('/drafts/publish', [DraftsController::class, 'publishAll']);

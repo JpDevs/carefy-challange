@@ -22,4 +22,9 @@ class DraftsRepository
     {
         return $this->model::with('patient')->where('id', $id)->firstOrFail();
     }
+
+    public function getCount()
+    {
+        return $this->model::count();
+    }
 }

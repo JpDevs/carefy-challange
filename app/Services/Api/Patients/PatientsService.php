@@ -80,4 +80,9 @@ class PatientsService
         return $this->repository->getInternments($id);
     }
 
+    public function getCount()
+    {
+        return $this->repository->getCount();
+    }
+
 }
