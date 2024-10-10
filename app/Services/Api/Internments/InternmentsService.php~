@@ -83,11 +83,18 @@ class InternmentsService
 
     public function create(array $validated)
     {
-        if(isset($validated['id'])) {
+        if (isset($validated['id'])) {
             unset($validated['id']);
         }
         return DB::transaction(function () use ($validated) {
             return $this->model::create($validated);
+        });
+    }
+
+    public function bulkCreate(array $data)
+    {
+        return DB::transaction(function () use ($data) {
+            return $this->model::insert($data);
         });
     }
 
@@ -101,7 +108,7 @@ class InternmentsService
     public function delete(string $id)
     {
         return DB::transaction(function () use ($id) {
-            return $this->model::where('id',$id)->firstOrFail()->delete();
+            return $this->model::where('id', $id)->firstOrFail()->delete();
         });
     }
 }

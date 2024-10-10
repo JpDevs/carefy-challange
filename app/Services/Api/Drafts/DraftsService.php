@@ -97,4 +97,22 @@ class DraftsService
         });
 
     }
+
+    public function publishAll()
+    {
+        $drafts = $this->model::whereNull('inconsistencies')->whereNotNull('patient_id');
+        if (empty($drafts->get())) {
+            return [];
+        }
+        $insert = $this->internmentsService->bulkCreate($drafts->get(['patient_id', 'guide', 'entry', 'exit'])->toArray());
+        if (!$insert) {
+            throw new \Exception('Inconsistencies detected. Please resolve issues and retry');
+        }
+        return DB::transaction(function () use ($drafts) {
+            $output = $drafts->get(['patient_id', 'guide', 'entry', 'exit']);
+            $drafts->delete();
+            return $output;
+        });
+
+    }
 }

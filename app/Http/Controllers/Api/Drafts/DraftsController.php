@@ -136,4 +136,14 @@ class DraftsController extends Controller
             return $this->setError($e);
         }
     }
+
+    public function publishAll()
+    {
+        try {
+            $response = $this->service->publishAll();
+            return $this->setResponse($response);
+        } catch (\Exception $e) {
+            return $this->setError($e);
+        }
+    }
 }

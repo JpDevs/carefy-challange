@@ -15,9 +15,9 @@ class DraftsController extends Controller
 
     protected array $rules = [
         'patient_id' => ['integer'],
-        'guide' => ['string','required'],
-        'entry' => ['date','required'],
-        'exit' => ['date','required'],
+        'guide' => ['string', 'required'],
+        'entry' => ['date', 'required'],
+        'exit' => ['date', 'required'],
     ];
 
     public function __construct(DraftsService $service, PatientsService $patientsService)
@@ -132,6 +132,15 @@ class DraftsController extends Controller
         try {
             $response = $this->service->publish($id);
             return $this->setResponse($response);
+        } catch (\Exception $e) {
+            return $this->setError($e);
+        }
+    }
+
+    public function publishAll()
+    {
+        try {
+
         } catch (\Exception $e) {
             return $this->setError($e);
         }

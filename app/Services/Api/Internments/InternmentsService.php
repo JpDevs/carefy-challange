@@ -91,6 +91,13 @@ class InternmentsService
         });
     }
 
+    public function bulkCreate(array $validated)
+    {
+        return DB::transaction(function () use ($validated) {
+            return $this->model::insert($validated);
+        });
+    }
+
     public function update(string $id, array $validated)
     {
         return DB::transaction(function () use ($id, $validated) {

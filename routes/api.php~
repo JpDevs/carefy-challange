@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 | Here is where you can register API routes for your application. These
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "api" middleware group. Make something great!
-|  
+|
 */
 
 
@@ -26,3 +26,4 @@ Route::post('/census/upload', [CensusController::class, 'uploadFile']);
 
 Route::resource('/drafts', DraftsController::class);
 Route::post('/drafts/{id}/publish', [DraftsController::class, 'publish']);
+Route::post('/drafts/publish',[DraftsController::class, 'publishAll']);

@@ -26,3 +26,4 @@ Route::post('/census/upload', [CensusController::class, 'uploadFile']);
 
 Route::resource('/drafts', DraftsController::class);
 Route::post('/drafts/{id}/publish', [DraftsController::class, 'publish']);
+Route::post('/drafts/publish', [DraftsController::class, 'publishAll']);
