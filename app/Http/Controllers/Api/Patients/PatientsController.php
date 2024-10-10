@@ -37,6 +37,16 @@ class PatientsController extends Controller
         }
     }
 
+    public function getInternments($id): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $response = $this->service->getInternments($id);
+            return $this->setResponse($response);
+        } catch (\Exception $e) {
+            return $this->setError($e);
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      */

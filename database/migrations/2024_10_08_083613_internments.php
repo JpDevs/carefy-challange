@@ -20,7 +20,8 @@ return new class extends Migration
 
             $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
 
-            $table->timestamps();
+            $table->dateTime('created_at')->useCurrent();
+            $table->dateTime('updated_at')->useCurrent();
             $table->softDeletes();
         });
     }

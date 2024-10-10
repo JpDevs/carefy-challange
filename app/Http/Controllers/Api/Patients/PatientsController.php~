@@ -37,6 +37,16 @@ class PatientsController extends Controller
         }
     }
 
+    public function getInternments($id)
+    {
+        try {
+            $response = $this->service->getInternments($id);
+            return $this->setResponse($response);
+        } catch (\Exception $e) {
+            return $this->setError($e);
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -67,7 +77,7 @@ class PatientsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id): \Illuminate\Http\JsonResponse
     {
         try {
             $validated = $this->validated();
@@ -81,7 +91,7 @@ class PatientsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): \Illuminate\Http\JsonResponse
     {
         try {
             $response = $this->service->delete($id);

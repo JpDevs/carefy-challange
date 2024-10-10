@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::resource('/patients', PatientsController::class)->except(['create', 'edit']);
+Route::resource('/patients/{id}/internments', [PatientsController::class, 'getInternments']);
 Route::resource('/internments', InternmentsController::class)->except(['create', 'edit']);;
 
 
@@ -26,4 +27,4 @@ Route::post('/census/upload', [CensusController::class, 'uploadFile']);
 
 Route::resource('/drafts', DraftsController::class);
 Route::post('/drafts/{id}/publish', [DraftsController::class, 'publish']);
-Route::post('/drafts/publish',[DraftsController::class, 'publishAll']);
+Route::post('/drafts/publish', [DraftsController::class, 'publishAll']);

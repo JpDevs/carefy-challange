@@ -57,20 +57,27 @@ class PatientsService
     public function update(string $id, array $validated)
     {
         return DB::transaction(function () use ($id, $validated) {
-            return $this->model::where('id', $id)->firstOrFail()->update($validated);
+            $data = $this->model::where('id', $id)->firstOrFail();
+            $data->update($validated);
+            return $data;
         });
     }
 
     public function delete(string $id)
     {
         return DB::transaction(function () use ($id) {
-            return $this->model::where('id',$id)->firstOrFail()->delete();
+            return $this->model::where('id', $id)->firstOrFail()->delete();
         });
     }
 
     public function findByNameAndBirth(array $data)
     {
         return $this->repository->findByNameAndBirth($data);
+    }
+
+    public function getInternments($id)
+    {
+        return $this->repository->getInternments($id);
     }
 
 }

@@ -15,7 +15,7 @@ class InternmentsRepository
 
     public function getAll(array $pagination)
     {
-        return $this->model::paginate($pagination['perPage'] ?? 15);
+        return $this->model::with('patient')->orderBy('id','desc')->paginate($pagination['perPage'] ?? 15);
     }
 
     public function show(int $id)

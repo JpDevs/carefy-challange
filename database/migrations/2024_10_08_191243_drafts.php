@@ -18,7 +18,8 @@ return new class extends Migration {
             $table->date('entry');
             $table->date('exit');
             $table->json('inconsistencies')->nullable();
-            $table->timestamps();
+            $table->dateTime('created_at')->useCurrent();
+            $table->dateTime('updated_at')->useCurrent();
 
             $table->foreign('patient_id')->references('id')->on('patients');
         });

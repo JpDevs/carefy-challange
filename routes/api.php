@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::resource('/patients', PatientsController::class)->except(['create', 'edit']);
+Route::get('/patients/{id}/internments', [PatientsController::class, 'getInternments']);
 Route::resource('/internments', InternmentsController::class)->except(['create', 'edit']);;
 
 
