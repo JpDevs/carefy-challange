@@ -11,10 +11,10 @@ class InternmentsController extends Controller
     protected InternmentsService $service;
 
     protected array $rules = [
-        'patient_id' => ['required','integer'],
-        'guide' => ['required','string'],
-        'entry' => ['required','date'],
-        'exit' => ['required','date'],
+        'patient_id' => ['required', 'integer'],
+        'guide' => ['required', 'string'],
+        'entry' => ['required', 'date'],
+        'exit' => ['required', 'date'],
     ];
 
     public function __construct(InternmentsService $service)
@@ -42,7 +42,7 @@ class InternmentsController extends Controller
         try {
             $validated = $this->validated();
             $response = $this->service->create($validated);
-            return $this->setResponse($response);
+            return $this->setResponse($response, 201);
         } catch (\Exception $e) {
             return $this->setError($e);
         }
@@ -82,7 +82,7 @@ class InternmentsController extends Controller
     {
         try {
             $response = $this->service->delete($id);
-            return $this->setResponse($response);
+            return $this->setResponse($response, 204);
         } catch (\Exception $e) {
             return $this->setError($e);
         }

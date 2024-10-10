@@ -10,7 +10,7 @@ class CensusController extends Controller
 {
     protected CensusService $service;
     protected $rules = [
-        'file' => ['required','file','mimes:csv']
+        'file' => ['required', 'file', 'mimes:csv']
     ];
 
     public function __construct(CensusService $service)
@@ -24,7 +24,7 @@ class CensusController extends Controller
         try {
             $validated = $this->validated();
             $response = $this->service->uploadFile($validated['file']);
-            return $this->setResponse($response);
+            return $this->setResponse($response, 201);
         } catch (\Exception $e) {
             return $this->setError($e);
         }

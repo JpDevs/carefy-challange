@@ -64,7 +64,7 @@ class DraftsController extends Controller
         try {
             $validated = $this->validated();
             $response = $this->service->create($validated);
-            return $this->setResponse($response);
+            return $this->setResponse($response, 201);
         } catch (\Exception $e) {
             return $this->setError($e);
         }
@@ -121,7 +121,7 @@ class DraftsController extends Controller
     {
         try {
             $response = $this->service->delete($id);
-            return $this->setResponse($response);
+            return $this->setResponse($response, 204);
         } catch (\Exception $e) {
             return $this->setError($e);
         }
@@ -131,7 +131,7 @@ class DraftsController extends Controller
     {
         try {
             $response = $this->service->publish($id);
-            return $this->setResponse($response);
+            return $this->setResponse($response, 201);
         } catch (\Exception $e) {
             return $this->setError($e);
         }
@@ -141,7 +141,7 @@ class DraftsController extends Controller
     {
         try {
             $response = $this->service->publishAll();
-            return $this->setResponse($response);
+            return $this->setResponse($response, 201);
         } catch (\Exception $e) {
             return $this->setError($e);
         }

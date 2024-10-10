@@ -55,7 +55,7 @@ class PatientsController extends Controller
         try {
             $validated = $this->validated();
             $response = $this->service->create($validated);
-            return $this->setResponse($response);
+            return $this->setResponse($response, 201);
         } catch (\Exception $e) {
             return $this->setError($e);
         }
@@ -95,7 +95,7 @@ class PatientsController extends Controller
     {
         try {
             $response = $this->service->delete($id);
-            return $this->setResponse($response);
+            return $this->setResponse($response, 204);
         } catch (\Exception $e) {
             return $this->setError($e);
         }
