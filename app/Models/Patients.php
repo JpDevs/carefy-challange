@@ -12,8 +12,6 @@ class Patients extends Model
 
     public $timestamps = true;
 
-    use SoftDeletes;
-
     protected $fillable = [
         'id',
         'code',

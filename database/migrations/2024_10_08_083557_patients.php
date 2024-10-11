@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->dateTime('created_at')->useCurrent();
             $table->dateTime('updated_at')->useCurrent();
-            $table->softDeletes();
+//            $table->softDeletes();
         });
     }
 

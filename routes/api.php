@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::resource('/patients', PatientsController::class)->except(['create', 'edit'])->names(['index' => 'patients', 'store' => 'patients.store', 'show' => 'patients.show', 'update' => 'patients.update', 'destroy' => 'patients.destroy']);
+Route::resource('/patients', PatientsController::class)->except(['create', 'edit'])->names(['index' => 'patientsApi.index', 'store' => 'patientsApi.store', 'show' => 'patientsApi.show', 'update' => 'patientsApi.update', 'destroy' => 'patientsApi.destroy']);
 Route::resource('/internments', InternmentsController::class)->except(['create', 'edit'])->names(['index' => 'internments.index', 'store' => 'internments.store', 'show' => 'internments.show', 'update' => 'internments.update', 'destroy' => 'internments.destroy']);
 Route::resource('/drafts', DraftsController::class)->names(['index' => 'drafts', 'store' => 'drafts.store', 'show' => 'drafts.show', 'update' => 'drafts.update', 'destroy' => 'drafts.destroy']);
 
