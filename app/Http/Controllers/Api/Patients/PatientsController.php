@@ -13,7 +13,8 @@ class PatientsController extends Controller
     protected array $rules = [
         'code' => ['required', 'string'],
         'name' => ['required', 'string'],
-        'birth' => ['required', 'date']
+        'birth' => ['required', 'date'],
+        'image' => ['image', 'mimes:jpeg,jpg,png,gif','nullable'],
     ];
 
     public function __construct(PatientsService $service)

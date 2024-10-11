@@ -83,6 +83,7 @@ function updateData() {
             $('#patientName').val(patientName)
             $('#birthDate').val(data.birth)
             $('#patientCode').val(data.code)
+            $('#patientImagePreview').attr('src', data.image)
             $('#preLoader').attr('style', 'display: none !important');
             $('#patientCard').show()
         },

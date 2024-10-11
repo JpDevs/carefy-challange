@@ -16,6 +16,7 @@ class Patients extends Model
         'id',
         'code',
         'name',
+        'image',
         'birth',
     ];
 

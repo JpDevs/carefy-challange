@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('code');
             $table->string('name');
+            $table->string('image')->nullable();
             $table->date('birth');
 
             $table->dateTime('created_at')->useCurrent();
             $table->dateTime('updated_at')->useCurrent();
-//            $table->softDeletes();
         });
     }
 

@@ -13,6 +13,7 @@ $(document).ready(function () {
             $('#patientCode').html(data.code)
             $('#preLoader').attr('style', 'display: none !important');
             $('#patientCard').show()
+            $('#patientImg').attr('src', data.image)
         },
         error: function (error) {
             $('#errorMessage').show();

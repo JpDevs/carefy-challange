@@ -5,6 +5,7 @@ namespace App\Services\Api\Patients;
 use App\Models\Patients;
 use App\Repositories\Api\Patients\PatientsRepository;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class PatientsService
 {
@@ -50,12 +51,16 @@ class PatientsService
     public function create(array $validated)
     {
         return DB::transaction(function () use ($validated) {
+            $validated['image'] = asset('img/no-image.png');
             return $this->model::create($validated);
         });
     }
 
     public function update(string $id, array $validated)
     {
+        if (!empty($validated['image'])) {
+            $validated['image'] = $this->uploadImage($validated['image']);
+        }
         return DB::transaction(function () use ($id, $validated) {
             $data = $this->model::where('id', $id)->firstOrFail();
             $data->update($validated);
@@ -83,6 +88,13 @@ class PatientsService
     public function getCount()
     {
         return $this->repository->getCount();
+    }
+
+    private function uploadImage($image): string
+    {
+        $fileName = $image->hashName();
+        $image = $image->storeAs('public/patients', $fileName);
+        return Storage::url($image);
     }
 
 }
