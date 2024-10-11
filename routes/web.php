@@ -18,16 +18,16 @@ Route::get('/', function () {
     return view('system.index');
 });
 
-Route::get('/patients', function () {
-    return view('system.patients.index');
-})->name('patients.index');
+Route::group(['prefix' => 'patients'], function () {
+    Route::get('/', function () {
+        return view('system.patients.index');
+    })->name('patients.index');
 
+    Route::get('/{id}', function ($id) {
+        return view('system.patients.show', compact('id'));
+    })->name('patients.show');
 
-Route::get('/patients/{id}', function ($id) {
-    return view('system.patients.show', compact('id'));
-})->name('patients.show');
-
-
-Route::get('/patients/{id}/edit', function ($id) {
-    return view('system.patients.edit', compact('id'));
-})->name('patients.edit');
+    Route::get('/{id}/edit', function ($id) {
+        return view('system.patients.edit', compact('id'));
+    })->name('patients.edit');
+})->name('patients');
