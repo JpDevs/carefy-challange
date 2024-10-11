@@ -28,6 +28,11 @@ class Internments extends Model
         return $this->belongsTo(Patients::class, 'patient_id', 'id');
     }
 
+    public function scopeIsDeleted($query)
+    {
+        return $query->withTrashed()->whereNotNull('deleted_at');
+    }
+
     public static function hasConflicts($patientId, $entry, $exit)
     {
         return self::where('patient_id', $patientId)->where(function (Builder $query) use ($entry, $exit) {

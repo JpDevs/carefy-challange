@@ -47,4 +47,9 @@ class InternmentsRepository
     {
         return $this->model::where('exit', '>=', now())->count();
     }
+
+    public function trash(array $pagination)
+    {
+        return $this->model::isDeleted()->orderBy('id', 'desc')->paginate($pagination['perPage'] ?? 15);
+    }
 }

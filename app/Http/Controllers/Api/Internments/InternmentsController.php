@@ -87,4 +87,46 @@ class InternmentsController extends Controller
             return $this->setError($e);
         }
     }
+
+    public function trash(Request $request): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $rules = ['perPage' => 'integer'];
+            $validated = $this->validated($rules, $request->all());
+            $response = $this->service->trash($validated);
+            return $this->setResponse($response);
+        } catch (\Exception $e) {
+            return $this->setError($e);
+        }
+    }
+
+    public function cleanTrash(Request $request): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $response = $this->service->cleanTrash();
+            return $this->setResponse($response, 204);
+        } catch (\Exception $e) {
+            return $this->setError($e);
+        }
+    }
+
+    public function destroyTrash($id): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $response = $this->service->destroyTrash($id);
+            return $this->setResponse($response, 204);
+        } catch (\Exception $e) {
+            return $this->setError($e);
+        }
+    }
+
+    public function restoreTrash($id)
+    {
+        try {
+            $response = $this->service->restoreTrash($id);
+            return $this->setResponse($response);
+        } catch (\Exception $e) {
+            return $this->setError($e);
+        }
+    }
 }

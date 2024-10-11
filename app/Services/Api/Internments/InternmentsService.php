@@ -121,4 +121,30 @@ class InternmentsService
     {
         return $this->repository->getDoneCount();
     }
+
+    public function trash(array $pagination)
+    {
+        return $this->repository->trash($pagination);
+    }
+
+    public function cleanTrash()
+    {
+        return DB::transaction(function () {
+            return $this->model::isDeleted()->forceDelete();
+        });
+    }
+
+    public function destroyTrash($id)
+    {
+        return DB::transaction(function () use ($id) {
+            return $this->model::withTrashed()->where('id', $id)->firstOrFail()->forceDelete();
+        });
+    }
+
+    public function restoreTrash($id)
+    {
+        return DB::transaction(function () use ($id) {
+            return $this->model::withTrashed()->where('id', $id)->firstOrFail()->restore();
+        });
+    }
 }

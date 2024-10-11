@@ -31,3 +31,18 @@ Route::group(['prefix' => 'patients'], function () {
         return view('system.patients.edit', compact('id'));
     })->name('patients.edit');
 })->name('patients');
+
+
+Route::group(['prefix' => 'internments'], function () {
+    Route::get('/', function () {
+        return view('system.internments.index');
+    })->name('internments.index');
+
+    Route::get('/{id}', function ($id) {
+        return view('system.internments.show', compact('id'));
+    })->name('internments.show');
+
+    Route::get('/{id}/edit', function ($id) {
+        return view('system.internments.edit', compact('id'));
+    })->name('internments.edit');
+});
