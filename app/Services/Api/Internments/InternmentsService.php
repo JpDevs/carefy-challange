@@ -78,6 +78,9 @@ class InternmentsService
      */
     public function intervalHasConflicts($id, $data)
     {
+        if (!array_key_exists('entry', $data) || !array_key_exists('exit', $data)) {
+            throw new \Exception('Invalid interval data');
+        }
         return $this->repository->intervalHasConflicts($id, $data);
     }
 

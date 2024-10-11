@@ -4,6 +4,7 @@ namespace App\Services\Api\Patients;
 
 use App\Models\Patients;
 use App\Repositories\Api\Patients\PatientsRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -77,6 +78,8 @@ class PatientsService
 
     public function findByNameAndBirth(array $data)
     {
+        $birth = Carbon::createFromFormat('d/m/Y', $data['birth']);
+        $data['birth'] = $birth->format('Y-m-d');
         return $this->repository->findByNameAndBirth($data);
     }
 

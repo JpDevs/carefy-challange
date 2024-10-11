@@ -26,11 +26,7 @@ class PatientsRepository
 
     public function findByNameAndBirth(array $data)
     {
-        $birth = Carbon::createFromFormat('d/m/Y', $data['birth']);
-        $birth = $birth->format('Y-m-d');
-        $name = $data['name'];
-
-        return $this->model::where(['birth' => $birth, 'name' => $name])->first();
+        return $this->model::where(['birth' => $data['birth'], 'name' => $data['name']])->first();
     }
 
     public function getInternments($id)

@@ -22,14 +22,12 @@ use Illuminate\Support\Facades\Route;
 Route::resource('/patients', PatientsController::class)->except(['create', 'edit'])->names(['index' => 'patientsApi.index', 'store' => 'patientsApi.store', 'show' => 'patientsApi.show', 'update' => 'patientsApi.update', 'destroy' => 'patientsApi.destroy']);
 Route::get('/patients/{id}/internments', [PatientsController::class, 'getInternments'])->name('patients.internments');
 
-Route::group(['prefix' => 'internments'], function () {
-    Route::get('/internments/trash', [InternmentsController::class, 'trash'])->name('internments.trash');
-    Route::post('/trash/{id}/restore', [InternmentsController::class, 'restoreTrash'])->name('internments.trash.restore');
-    Route::delete('/trash/clean', [InternmentsController::class, 'cleanTrash'])->name('internments.trash.clean');
-    Route::delete('/trash/{id}', [InternmentsController::class, 'destroyTrash'])->name('internments.trash.destroy');
 
-    Route::resource('/', InternmentsController::class)->except(['create', 'edit'])->names(['index' => 'internmentsApi.index', 'store' => 'internmentsApi.store', 'show' => 'internmentsApi.show', 'update' => 'internmentsApi.update', 'destroy' => 'internmentsApi.destroy']);
-});
+Route::get('/internments/trash', [InternmentsController::class, 'trash'])->name('internments.trash');
+Route::post('/internments/trash/{id}/restore', [InternmentsController::class, 'restoreTrash'])->name('internments.trash.restore');
+Route::delete('/internments/trash/clean', [InternmentsController::class, 'cleanTrash'])->name('internments.trash.clean');
+Route::delete('/internments/trash/{id}', [InternmentsController::class, 'destroyTrash'])->name('internments.trash.destroy');
+Route::resource('/internments', InternmentsController::class)->except(['create', 'edit'])->names(['index' => 'internmentsApi.index', 'store' => 'internmentsApi.store', 'show' => 'internmentsApi.show', 'update' => 'internmentsApi.update', 'destroy' => 'internmentsApi.destroy']);
 
 
 Route::resource('/drafts', DraftsController::class)->names(['index' => 'drafts', 'store' => 'drafts.store', 'show' => 'drafts.show', 'update' => 'drafts.update', 'destroy' => 'drafts.destroy']);

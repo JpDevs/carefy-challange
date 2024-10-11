@@ -79,8 +79,8 @@ $(document).ready(function () {
                     "data": null,
                     "render": function (data, type, row) {
                         return `
-                            <a class="btn btn-primary" href="/patients/` + row.id + `"><i class="fas fa-eye"></i></a>
-                            <a class="btn btn-info" href="/patients/` + row.id + `/edit"><i class="fas fa-edit"></i></a>
+                            <a class="btn btn-primary" href="/internments/` + row.id + `"><i class="fas fa-eye"></i></a>
+                            <a class="btn btn-info" href="/internments/` + row.id + `/edit"><i class="fas fa-edit"></i></a>
                             <button class="btn btn-danger" onclick="deleteInternment(${row.id})"><i class="fas fa-trash"></i></button>
                         `;
                     }

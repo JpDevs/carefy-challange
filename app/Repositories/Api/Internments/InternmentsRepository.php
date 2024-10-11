@@ -20,7 +20,7 @@ class InternmentsRepository
 
     public function show(int $id)
     {
-        return $this->model::where('id', $id)->firstOrFail();
+        return $this->model::with('patient')->where('id', $id)->firstOrFail();
     }
 
     public function findByGuide($guide)
@@ -30,10 +30,6 @@ class InternmentsRepository
 
     public function intervalHasConflicts($id, $data)
     {
-        if (!array_key_exists('entry', $data) || !array_key_exists('exit', $data)) {
-            throw new \Exception('Invalid interval data');
-        }
-
         return $this->model::hasConflicts($id, $data['entry'], $data['exit']);
 
     }
