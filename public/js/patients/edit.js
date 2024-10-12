@@ -74,6 +74,7 @@ $(document).ready(function () {
             }
         });
     });
+    $( "#birthDate" ).datepicker();
 });
 
 function updateData() {

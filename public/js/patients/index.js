@@ -60,7 +60,7 @@ $(document).ready(function () {
                 {
                     "data": "birth",
                     "render": function (data, type, row) {
-                        let entryDate = new Date(data);
+                        let entryDate = new Date(data + 'T00:00:00');
                         return entryDate.toLocaleDateString('pt-BR');
                     }
                 },

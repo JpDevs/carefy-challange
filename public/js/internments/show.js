@@ -5,9 +5,9 @@ $(document).ready(function () {
         success: function (data) {
             console.log(data);
             patientName = data.patient.name
-            let birthDate = new Date(data.patient.birth);
-            let entryDate = new Date(data.entry);
-            let exitDate = new Date(data.exit);
+            let birthDate = new Date(data.patient.birth + 'T00:00:00');
+            let entryDate = new Date(data.entry + 'T00:00:00');
+            let exitDate = new Date(data.exit + 'T00:00:00');
 
             $('#patientName').html(patientName)
             $('#birthDate').html(birthDate.toLocaleDateString('pt-BR'))
