@@ -1,26 +1,14 @@
 let patientName = null;
+let validationMessages = {
+    sameGuide: 'Você já cadastrou esse guia de internação. Por favor, faça a atualização.',
+    entryMinorBirth: 'A data de entrada que você inseriu é inválida.',
+    exitMinorEqualEntry: 'As datas de entrada e saída não estão corretas. Por favor, verifique e tente novamente.',
+    intervalConflicts: 'Já existem internações registradas para este paciente nesse período.'
+}
+
 $(document).ready(function () {
     updateData()
-    $('#patientImage').change(function () {
-        var file = this.files[0];
-        var fileType = file["type"];
-        var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
-        if ($.inArray(fileType, validImageTypes) < 0) {
-            Swal.fire(
-                'Erro!',
-                'Formato inválido',
-                'error'
-            )
-            this.value = '';
-            return false;
-        }
-        var reader = new FileReader();
-        reader.onload = function (event) {
-            $('#patientImagePreview').attr("src", event.target.result);
-        }
-        reader.readAsDataURL(file);
-    });
-    $('#patientForm').on('submit', function (event) {
+    $('#internmentForm').on('submit', function (event) {
 
         event.preventDefault();
         Swal.fire({
@@ -33,7 +21,7 @@ $(document).ready(function () {
             }
         });
 
-        if(!$('#patientName').val() || !$('#birthDate').val() || !$('#patientCode').val()) {
+        if (!$('#entryDate').val() || !$('#exitDate').val() || !$('#guide').val()) {
             Swal.fire(
                 'Erro!',
                 'Preencha todos os campos',
@@ -42,12 +30,11 @@ $(document).ready(function () {
             return false;
         }
 
-        let formData = new FormData($("form[name='patientForm']")[0])
-        let image = $('#patientImage')[0].files[0];
-        formData.append('image', image);
+        let formData = new FormData($("form[name='internmentForm']")[0])
         formData.append('_method', 'PUT')
+        formData.append('patient_id', patientId)
         $.ajax({
-            url: updateRoute,
+            url: statisticsRoute,
             type: 'POST',
             data: formData,
             cache: false,
@@ -57,7 +44,7 @@ $(document).ready(function () {
                 Swal.hideLoading()
                 Swal.fire(
                     'Sucesso!',
-                    'Paciente atualizado com sucesso',
+                    'Internação atualizada com sucesso',
                     'success'
                 ).then(function () {
                     updateData()
@@ -66,7 +53,7 @@ $(document).ready(function () {
             error: function (error) {
                 Swal.fire(
                     'Erro!',
-                    'Erro ao atualizar paciente',
+                    'Erro ao atualizar internação: ' + error.responseJSON.message,
                     'error'
                 );
             }
@@ -79,11 +66,14 @@ function updateData() {
         url: statisticsRoute,
         type: 'GET',
         success: function (data) {
-            patientName = data.name
-            $('#patientName').val(patientName)
-            $('#birthDate').val(data.birth)
-            $('#patientCode').val(data.code)
-            $('#patientImagePreview').attr('src', data.image)
+            let birthDate = new Date(data.patient.birth + 'T00:00:00');
+            $('#patientName').html(data.patient.name)
+            $('#birthDate').html(birthDate.toLocaleDateString('pt-BR'))
+            $('#patientCode').html(data.patient.code)
+            $('#entryDate').val(data.entry)
+            $('#exitDate').val(data.exit)
+            $('#guide').val(data.guide)
+            $('#patientImg').attr('src', data.patient.image)
             $('#preLoader').attr('style', 'display: none !important');
             $('#patientCard').show()
         },

@@ -103,6 +103,7 @@ class InternmentsService
 
     public function update(string $id, array $validated)
     {
+        unset($validated['patient_id']);
         return DB::transaction(function () use ($id, $validated) {
             return $this->model::where('id', $id)->firstOrFail()->update($validated);
         });

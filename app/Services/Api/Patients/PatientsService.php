@@ -41,6 +41,9 @@ class PatientsService
 
     public function getAll(array $pagination)
     {
+        if(isset($pagination['noPaginate'])) {
+            return $this->repository->getAllWithoutPagination();
+        }
         return $this->repository->getAll($pagination);
     }
 

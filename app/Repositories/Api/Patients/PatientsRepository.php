@@ -38,4 +38,9 @@ class PatientsRepository
     {
         return $this->model::count();
     }
+
+    public function getAllWithoutPagination()
+    {
+        return $this->model::orderBy('id', 'desc')->get();
+    }
 }

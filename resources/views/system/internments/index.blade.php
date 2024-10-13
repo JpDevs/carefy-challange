@@ -8,7 +8,7 @@
     Internações
 @endsection
 @section('headBtn')
-    <button onclick="toggleRegister()" class="btn btn-sm btn-outline-primary">Cadastrar</button>
+    <a href="{{route('internments.create')}}" class="btn btn-sm btn-outline-primary">Cadastrar</a>
 @endsection
 @include('../template.head')
 <!-- Page Heading -->

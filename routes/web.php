@@ -38,6 +38,10 @@ Route::group(['prefix' => 'internments'], function () {
         return view('system.internments.index');
     })->name('internments.index');
 
+    Route::get('/create', function () {
+        return view('system.internments.create');
+    })->name('internments.create');
+
     Route::get('/{id}', function ($id) {
         return view('system.internments.show', compact('id'));
     })->name('internments.show');
@@ -45,4 +49,6 @@ Route::group(['prefix' => 'internments'], function () {
     Route::get('/{id}/edit', function ($id) {
         return view('system.internments.edit', compact('id'));
     })->name('internments.edit');
+
+
 });

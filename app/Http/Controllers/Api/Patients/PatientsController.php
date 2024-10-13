@@ -12,6 +12,7 @@ class PatientsController extends Controller
 
     protected array $rules = [
         'code' => ['required', 'string'],
+        'noPaginate' => ['nullable','boolean'],
         'name' => ['required', 'string'],
         'birth' => ['required', 'date'],
         'image' => ['image', 'mimes:jpeg,jpg,png,gif','nullable'],
