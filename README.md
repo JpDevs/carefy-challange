@@ -1,66 +1,419 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+<a href="https://laravel.com" target="_blank"><img src="https://hml.carefy.com.br/wp-content/uploads/2024/07/carefoiuuuii.svg" width="300"></a>
+
+# Desafio Prático Carefy
 </p>
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Este repositório é um desafio prático proposto pela empresa Carefy. A aplicação consiste em um gerenciador de
+internações em um hospital, com a possibilidade de importação de dados de censo hospitalar através de um arquivo .CSV.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+O censo hospitalar é uma listagem de pacientes e suas respectivas internações organizada em um arquivo estruturado para
+cadastro em massa das informações em um sistema.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Essa aplicação se encontra em produção, clique <a href="#">aqui</a> para acessar o deploy.
 
-## Learning Laravel
+Clique <a href="#">aqui</a> para assistir a uma demonstração no YouTube.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Sumário
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+1. [O Problema](#o-problema)
+2. [Solução Proposta](#solução-proposta)
+    - [Requisitos de negócio](#requisitos-de-negócio)
+    - [Regras de validação](#regras-de-validação)
+3. [🚀 Começando](#-começando)
+    - [📋 Pré-requisitos](#-pré-requisitos)
+    - [🔧 Instalação](#-instalação)
+4. [Documentação da API](#documentação-da-api)
+    - [Internments](#internments)
+        - [Index (Exibição de dados cadastrados)](#index-exibição-de-dados-cadastrados)
+        - [Show (Exibição de dado individual)](#show-exibição-de-dado-individual)
+        - [Store (Rota responsável pela criação de uma nova internação)](#store-rota-responsável-pela-criação-de-uma-nova-internação)
+        - [Update (Atualização de dado individual)](#update-atualização-de-dado-individual)
+        - [Destroy (Exclusão de dado individual)](#destroy-exclusão-de-dado-individual)
+    - [Drafts](#drafts)
+        - [Index (Exibição de dados cadastrados)](#index-exibição-de-dados-cadastrados-1)
+        - [Show (Exibição de dado individual)](#show-exibição-de-dado-individual-1)
+        - [Store (Rota responsável pela criação de uma nova internação)](#store-rota-responsável-pela-criação-de-uma-nova-internação-1)
+        - [Update (Atualização de dado individual)](#update-atualização-de-dado-individual-1)
+        - [Destroy (Exclusão de dado individual)](#destroy-exclusão-de-dado-individual-1)
+        - [Publish (Converter um rascunho válido em internações)](#publish-converter-um-rascunho-válido-em-internações)
+        - [Publish All Valids (Converter todos os rascunhos válidos em internações)](#publish-all-valids-converter-todos-os-rascunhos-válidos-em-internações)
+    - [Patients](#patients)
+        - [Index (Exibição de dados cadastrados)](#index-exibição-de-dados-cadastrados-2)
+        - [Show (Exibição de dado individual)](#show-exibição-de-dado-individual-2)
+        - [Store (Rota responsável pela criação de um novo paciente)](#store-rota-responsável-pela-criação-de-um-novo-paciente)
+        - [Update (Atualização de dado individual)](#update-atualização-de-dado-individual-2)
+        - [Destroy (Exclusão de dado individual)](#destroy-exclusão-de-dado-individual-2)
+    - [Census](#census)
+        - [Upload (Envio de dados)](#upload-envio-de-dados)
+5. [🛠️ Ferramentas utilizadas no desenvolvimento da aplicação](#️-ferramentas-utilizadas-no-desenvolvimento-da-aplicação)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+## O Problema
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+A clínica CareHealth costumava armazenar os dados de clientes e internações em uma planilha do Excel, porém
+recentemente eles contrataram o sistema CareSys para poder ter maior facilidade no gerenciamento de seus dados.
 
-### Premium Partners
+A clínica não abrirá mão dos dados cadastrados na planilha, então solicitou aos desenvolvedores do CareSys que
+desenvolvessem uma migração de dados do censo hospitalar em CSV para o sistema contratado, com a possibilidade de
+verificar e corrigir possíveis incongruências encontradas nos dados da planilha.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Solução Proposta
 
-## Contributing
+Foi desenvolvida uma aplicação com foco em importação de censo hospitalar CSV, seguindo alguns requisitos técnicos
+solicitados pela CareHealth.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### Requisitos de negócio:
 
-## Code of Conduct
+- **Possibilidade de enviar os dados do censo através do upload de arquivos.**
+- **Possibilidade de verificar os dados inconsistentes presentes nos arquivos.**
+- **Possibilidade de salvar as informações válidas em um banco de dados relacional.**
+- **Possibilidade de listar todos os pacientes com suas respectivas internações cadastradas.**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Regras de validação:
 
-## Security Vulnerabilities
+Deverão ser inválidos os registros com as seguintes características:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- **01:** Pacientes com o mesmo NOME e NASCIMENTO, porém com CÓDIGO divergente de um cadastrado previamente.
+- **02:** Internações com o mesmo código da GUIA de internação.
+- **03:** Internações com a data de ENTRADA inferior à data de NASCIMENTO do paciente.
+- **04:** Internações com a data de SAÍDA inferior ou igual à data de ENTRADA.
+- **05:** Internações, do mesmo paciente, cujo período de internação (data de ENTRADA até a data de SAÍDA) conflite com
+  o período de uma internação cadastrada previamente.
+- **06:** Para pacientes com internação sem alta, ou seja, em que ele ainda está internado, não deve ser possível
+  registrar internações futuras (data de ENTRADA maior que a data de ENTRADA de uma internação sem alta cadastrada
+  previamente).
 
-## License
+## 🚀 Começando
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local.
+
+### 📋 Pré-requisitos
+
+```
+PHP v8.1+
+Composer v2.3.7+
+MySql
+```
+
+### 🔧 Instalação
+
+Primeiramente, clone o repositório no diretório desejado
+
+```
+git clone https://github.com/JpDevs/carefy-challange
+```
+
+Logo após, instale as dependências do mesmo utilizando o composer.
+
+```
+composer install
+```
+
+Copie o arquivo `env.example` e renomeie-o para `env`.
+
+```
+cp .env.example .env
+sudo nano .env
+```
+
+```dotenv
+DB_CONNECTION=mysql
+DB_HOST=seu_host
+DB_PORT=3306
+DB_DATABASE=nomedobanco
+DB_USERNAME=root
+DB_PASSWORD=suasenha
+```
+
+Após a configuração das variáveis de ambiente, gere uma key para sua aplicação e habilite o storage.
+
+```
+php artisan key:generate
+php artisan storage:link
+```
+
+E então, rode as migrations para instalação da database.
+
+```
+php artisan migrate:fresh
+```
+
+Feito isso, sua aplicação estará pronta para ser executada através do artisan.
+
+```
+php artisan serve
+```
+
+---
+
+## Documentação da API
+
+Segue abaixo a lista de rotas da API desenvolvida na aplicação.
+
+### Internments
+
+Grupo para o gerenciamento de internações, contém rotas de cadastro,listagem,atualização e exclusão de internações no
+sistema.
+
+#### **Index** (Exibição de dados cadastrados):
+
+Método: GET
+
+URL: /api/internments
+
+Parâmetros:
+
+- page (int): Número da página
+- perPage (int): Número de registros por página
+
+#### **Show** (Exibição de dado individual):
+
+Método: GET
+
+URL: /api/internments/{id}
+
+Parâmetros: ---
+
+#### **Store** (Rota responsável pela criação de uma nova internação):
+
+Método: POST
+
+URL: /api/internments/
+
+Parâmetros:
+
+```json
+{
+    "patient_id": 1,
+    "guide": "123456",
+    "entry": "2022-01-01",
+    "exit": "2022-01-01"
+}
+```
+
+#### **Update** (Atualização de dado individual):
+
+Método: PUT
+
+URL: /api/internments/{id}
+
+Parâmetros:
+
+```json
+{
+    "patient_id": 1,
+    "guide": "123456",
+    "entry": "2022-01-01",
+    "exit": "2022-01-01"
+}
+```
+
+#### **Destroy** (Exclusão de dado individual):
+Método: DELETE
+
+URL: /api/internments/{id}
+
+Parâmetros: ---
+
+
+---
+### Drafts
+
+Grupo para o gerenciamento de internações rascunhos (recém importadas de um arquivo CSV), contém rotas de cadastro,listagem,atualização,exclusão e publicação de internações rascunho.
+
+#### **Index** (Exibição de dados cadastrados):
+
+Método: GET
+
+URL: /api/drafts
+
+Parâmetros:
+
+- page (int): Número da página
+- perPage (int): Número de registros por página
+- onlyValids (boolean): Somente os rascunhos validos (sem dados incongruentes)
+
+#### **Show** (Exibição de dado individual):
+
+Método: GET
+
+URL: /api/drafts/{id}
+
+Parâmetros: ---
+
+#### **Store** (Rota responsável pela criação de uma nova internação):
+
+Método: POST
+
+URL: /api/drafts/
+
+Parâmetros:
+
+```json
+{
+    "patient_id": 1,
+    "guide": "123456",
+    "entry": "2022-01-01",
+    "exit": "2022-01-01"
+}
+```
+
+#### **Update** (Atualização de dado individual):
+
+Método: PUT
+
+URL: /api/drafts/{id}
+
+Parâmetros:
+
+```json
+{
+    "patient_id": 1,
+    "guide": "123456",
+    "entry": "2022-01-01",
+    "exit": "2022-01-01"
+}
+```
+
+#### **Destroy** (Exclusão de dado individual):
+Método: DELETE
+
+URL: /api/drafts/{id}
+
+Parâmetros: ---
+
+
+#### **Publish** (Converter um rascunho válido em internações):
+
+Método: POST
+
+URL: /api/drafts/{id}/publish
+
+Parâmetros: ---
+
+#### **Publish All Valids** (Converter todos os rascunhos válidos em internações):
+
+Método: POST
+
+URL: /api/drafts/publish
+
+Parâmetros: ---
+
+---
+
+### Patients
+
+Contém rotas responsáveis pelo gerenciamento de pacientes cadastrados no sistema.
+
+#### **Index** (Exibição de dados cadastrados):
+
+Método: GET
+
+URL: /api/patients
+
+Parâmetros:
+
+- page (int): Número da página
+- perPage (int): Número de registros por página
+
+#### **Show** (Exibição de dado individual):
+
+Método: GET
+
+URL: /api/patients/{id}
+
+Parâmetros: ---
+
+#### **Store** (Rota responsável pela criação de uma nova internação):
+
+Método: POST
+
+URL: /api/patients/
+
+Parâmetros:
+
+```json
+
+{
+    "code": "34324234",
+    "name": "João Pedro B",
+    "birth": "2024-10-12"
+}
+
+```
+
+#### **Update** (Atualização de dado individual):
+
+Método: PUT
+
+URL: /api/patients/{id}
+
+Parâmetros:
+
+```json
+{
+    "code": "343242234",
+    "name": "João",
+    "birth": "2024-10-12"
+}
+```
+
+#### **Destroy** (Exclusão de dado individual):
+Método: DELETE
+
+URL: /api/patients/{id}
+
+Parâmetros: ---
+
+
+---
+
+### Census
+
+Rota responsável pelo envio, validação e persistência dos dados de censo hospitalar no sistema.
+
+#### **Upload** (Exibição de dados cadastrados):
+
+Método: POST
+
+URL: /api/patients
+
+Multipart/form-data
+
+**Parâmetros:**
+- File (arquivo com formato .csv)
+
+---
+
+
+
+
+
+
+
+## 🛠️ Ferramentas utilizadas no desenvolvimento da aplicação:
+
+Para o desenvolvimento dessa aplicação, foram utilizadas algumas libs, frameworks e ferramentas open-source. Eu não
+poderia deixar de creditar as mesmas.
+
+* [Laravel](https://laravel.com/) - O Framework PHP para artesãos WEB
+* [Composer](https://getcomposer.org/) - Gerenciador de dependências para PHP
+* [MySQL](https://dev.mysql.com/) - Banco de dados relacional
+* [SbAdmin 2](https://startbootstrap.com/sb-admin-2) - A free bootstrap admin theme
+* [Bootstrap](https://getbootstrap.com/) - Framework CSS
+* [Jquery](https://jquery.com/) - Biblioteca JavaScript
+* [SweetAlert2](https://sweetalert2.github.io/) - Biblioteca de alertas
+* [Datatables](https://datatables.net/) - Tabela de dados
+
+## 🎉 Considerações finais do desenvolvedor
+
+Sem sombra de dúvidas, esse foi um projeto realmente desafiador, e de longe o projeto que eu mais gostei do processo de
+desenvolvimento. As validações dos dados deixaram todo o desenvolvimento do projeto mais interessante, a separação de
+dados incongruentes, acabei tendo a ideia de criar um sistema de "rascunhos" que adorei fazer. Foi um projeto que me
+trouxe bons ensinamentos em algumas questões na linguagem PHP, e com toda certeza me fez beber alguns litros de café,
+rsrs. Agradeço muito ao pessoal da Carefy pela oportunidade, e espero que vocês gostem do sistema.
+
+Atenciosamente, João Pedro B. Santos (JpDevs)
+
