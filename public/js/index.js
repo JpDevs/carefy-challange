@@ -31,10 +31,15 @@ function setTable(table, dataTable, data) {
     let internments = data.internments.recent.data
     $.each(internments, function (index, internment) {
 
-        let entryDate = new Date(internment.entry);
-        let exitDate = new Date(internment.exit);
+        let entryDate = new Date(internment.entry + 'T00:00:00');
+        let exitDate = new Date(internment.exit + 'T00:00:00');
         let entryFormatted = entryDate.toLocaleDateString('pt-BR');
-        let exitFormatted = exitDate.toLocaleDateString('pt-BR');
+        let exitFormatted = null;
+        if(internment.exit !== null) {
+            let exitFormatted = exitDate.toLocaleDateString('pt-BR');
+        } else {
+            exitFormatted = 'Não Programada'
+        }
 
         table.append("<tr><td>" + internment.patient.name + "</td>" +
             "<td>" + internment.guide + "</td>" +
