@@ -407,13 +407,13 @@ poderia deixar de creditar as mesmas.
 * [SweetAlert2](https://sweetalert2.github.io/) - Biblioteca de alertas
 * [Datatables](https://datatables.net/) - Tabela de dados
 
+---
+
 ## 🎉 Considerações finais do desenvolvedor
 
-Sem sombra de dúvidas, esse foi um projeto realmente desafiador, e de longe o projeto que eu mais gostei do processo de
-desenvolvimento. As validações dos dados deixaram todo o desenvolvimento do projeto mais interessante, a separação de
-dados incongruentes, acabei tendo a ideia de criar um sistema de "rascunhos" que adorei fazer. Foi um projeto que me
-trouxe bons ensinamentos em algumas questões na linguagem PHP, e com toda certeza me fez beber alguns litros de café,
-rsrs. Agradeço muito ao pessoal da Carefy pela oportunidade, e espero que vocês gostem do sistema.
 
-Atenciosamente, João Pedro B. Santos (JpDevs)
+Sem sombra de dúvidas, este foi um projeto realmente desafiador, e de longe o que eu mais gostei de desenvolver. As validações dos dados tornaram todo o processo mais interessante, e, com a separação de dados incongruentes, tive a ideia de criar um sistema de "rascunhos", que adorei implementar. Foi um projeto que me trouxe grandes aprendizados em algumas questões relacionadas à linguagem PHP, e, com toda certeza, me fez beber alguns litros de café, rsrs. Agradeço muito ao pessoal da Carefy pela oportunidade e espero que gostem do sistema.
+
+Atenciosamente,
+João Pedro B. Santos (JpDevs)
 
