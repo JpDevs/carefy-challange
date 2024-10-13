@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->json('patient_data')->nullable();
             $table->string('guide');
             $table->date('entry');
-            $table->date('exit');
+            $table->date('exit')->nullable();
             $table->json('inconsistencies')->nullable();
             $table->dateTime('created_at')->useCurrent();
             $table->dateTime('updated_at')->useCurrent();
