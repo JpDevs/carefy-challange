@@ -63,7 +63,7 @@ class DraftsService
      */
     public function update(int $id, array $validated)
     {
-        if(!isset($validated['patient_id'])) {
+        if (!isset($validated['patient_id'])) {
             throw new \Exception('Missing patient_id');
         }
         $validated['inconsistencies'] = null;
@@ -73,6 +73,11 @@ class DraftsService
             $validated['inconsistencies'] = json_encode(['internment' => $validateInternment['inconsistences']]);
         }
         $validated['patient_data'] = null;
+        return $this->put($id, $validated);
+    }
+
+    public function put($id, $validated)
+    {
         return DB::transaction(function () use ($id, $validated) {
             $data = $this->model::where('id', $id)->firstOrFail();
             $data->update($validated);
@@ -80,6 +85,9 @@ class DraftsService
         });
     }
 
+    /**
+     * @throws \Exception
+     */
     public function publish($id)
     {
         $draft = $this->model::where('id', $id)->firstOrFail();
@@ -87,32 +95,77 @@ class DraftsService
         if (!is_null($draft['inconsistencies']) || is_null($draft['patient_id'])) {
             throw new \Exception('Inconsistencies detected. Please resolve issues and retry');
         }
-
         $internment = $this->internmentsService->create($draft->toArray());
 
-        return DB::transaction(function () use ($draft, $internment) {
+        $output = DB::transaction(function () use ($draft, $internment) {
             $draft->delete();
             return $internment;
         });
+        $this->revalidateGuide($internment['guide']);
+
+        return $output;
 
     }
 
+    /**
+     * @throws \Exception
+     */
     public function publishAll()
     {
         $drafts = $this->model::whereNull('inconsistencies')->whereNotNull('patient_id');
+        $guides = $drafts->get()->pluck('guide')->toArray();
         if (empty($drafts->get())) {
             return [];
         }
         $insert = $this->internmentsService->bulkCreate($drafts->get(['patient_id', 'guide', 'entry', 'exit'])->toArray());
+
         if (!$insert) {
             throw new \Exception('Inconsistencies detected. Please resolve issues and retry');
         }
-        return DB::transaction(function () use ($drafts) {
+        $output = DB::transaction(function () use ($drafts) {
             $output = $drafts->get(['patient_id', 'guide', 'entry', 'exit']);
             $drafts->delete();
             return $output;
         });
+        $this->bulkRevalidateGuide($guides);
+        return $output;
 
+    }
+
+
+    /**
+     * @throws \Exception
+     */
+    public function revalidateGuide($guide)
+    {
+        $draft = $this->repository->findByGuide($guide);
+        if (!is_null($draft)) {
+            return $this->addRepeated($draft);
+        }
+        return null;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function bulkRevalidateGuide($guides): array
+    {
+        $output = [];
+        foreach ($guides as $key => $guide) {
+            $output[$key] = $this->revalidateGuide($guide);
+            if (is_null($output[$key])) {
+                unset($output[$key]);
+            }
+        }
+        return $output;
+    }
+
+    public function addRepeated($draft)
+    {
+        $inconsistencies = json_decode($draft['inconsistencies'], true);
+        $inconsistencies['internment'][] = 'sameGuide';
+        $draft['inconsistencies'] = json_encode($inconsistencies);
+        return $this->put($draft['id'], $draft->toArray());
     }
 
     public function getCount()

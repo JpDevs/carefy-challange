@@ -1,4 +1,5 @@
 var validPatient = true;
+var birth = null;
 $(document).ready(function () {
     updateData();
     $('#entryDate').on('change', function () {
@@ -147,9 +148,11 @@ function updateData() {
 
 
             patientName = data.patient.name;
+            birth = data.patient.birth;
+            let birthDate = new Date(birth + 'T00:00:00');
 
             $('#patientName').html(patientName)
-            $('#birthDate').html(data.patient.birth)
+            $('#birthDate').html(birthDate.toLocaleDateString('pt-BR'))
             $('#patientId').val(data.patient.id)
             $('#codeLabel').html(data.patient.code)
             $('#patientImg').attr('src', data.patient.image)
@@ -168,13 +171,12 @@ function updateData() {
 }
 
 function fixCode() {
-    let birthDate = $('#birthDate').html();
     let name = patientName;
     $.ajax({
         url: codeRoute,
         type: 'GET',
         data: {
-            birth: birthDate,
+            birth: birth,
             name: name
         },
         success: function (response) {

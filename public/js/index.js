@@ -40,8 +40,8 @@ function setTable(table, dataTable, data) {
             "<td>" + internment.guide + "</td>" +
             "<td>" + entryFormatted + "</td>" +
             "<td>" + exitFormatted + "</td>" +
-            '<td><button class="btn btn-primary"><i class="fas fa-eye"></i></button>\n' +
-            '                        <button class="btn btn-danger"><i class="fas fa-trash"></i></button>')
+            `<td><a href='`+internmentsRoute+`/`+internment.id+`' class="btn btn-primary"><i class="fas fa-eye"></i></a>` +
+            `                        <button class="btn btn-danger" onclick='toggleDelete(`+internment.id+`)'><i class="fas fa-trash"></i></button>`)
     });
     if (!dataTable.DataTable) {
         dataTable.DataTable({
@@ -89,4 +89,32 @@ function setPatientsCount(count) {
     let card = $('#patients')
     card.text(count)
     return count;
+}
+
+function toggleDelete(id) {
+    Swal.fire({
+        title: 'Você tem certeza?',
+        text: "Você poderá recuperar a internação na lixeira.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim, deletar!'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: internmentsRoute + '/' + id,
+                type: 'DELETE',
+                success: function (response) {
+                    Swal.fire(
+                        'Excluido!',
+                        'Registro excluido com sucesso!',
+                        'success'
+                    ).then(() => {
+                        $('#dataTable').DataTable().ajax.reload(null, false);
+                    });
+                }
+            })
+        }
+    });
 }

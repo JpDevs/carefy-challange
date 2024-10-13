@@ -7,7 +7,7 @@ $(document).ready(function () {
         success: function (data) {
             console.log(data);
             patientName = data.name
-            let birthDate = new Date(data.birth);
+            let birthDate = new Date(data.birth + 'T00:00:00');
             $('#patientName').html(patientName)
             $('#birthDate').html(birthDate.toLocaleDateString('pt-BR'))
             $('#patientCode').html(data.code)

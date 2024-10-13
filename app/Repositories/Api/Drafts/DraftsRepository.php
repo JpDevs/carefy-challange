@@ -32,4 +32,9 @@ class DraftsRepository
     {
         return $this->model::with('patient')->whereNull('inconsistencies')->orderBy('id', 'desc')->paginate($pagination['perPage'] ?? 15);
     }
+
+    public function findByGuide($guide)
+    {
+        return $this->model::with('patient')->where('guide', $guide)->first();
+    }
 }

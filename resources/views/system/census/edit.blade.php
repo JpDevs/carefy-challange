@@ -49,10 +49,10 @@
                                 <label for="patientCode">Código:</label>
                                 <strong id="codeLabel"></strong>
                             </div>
+                        <form method="POST" action="javascript:void(0)" id="draftForm" name="draftForm">
                             <div class="form-group col-md-6" id="codeInput">
                                 <div class="input-group" id="fixCode" style="display: none">
                                     <input id="patientCode" type="text" class="form-control" readonly>
-                                    <form method="POST" action="javascript:void(0)" id="draftForm" name="draftForm">
                                         <input type="hidden" name="patient_id" id="patientId">
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary" id="codeAction" type="button"
@@ -61,7 +61,7 @@
                                             </button>
                                         </div>
                                         <div class="invalid-feedback" id="codeMessage">Paciente já cadastrado no
-                                            sistema
+                                            sistema. Clique em corrigir para associar o paciente.
                                         </div>
                                 </div>
                             </div>

@@ -408,7 +408,7 @@ function saveDraft(id) {
                         cancelButtonText: 'Fechar'
                     }).then((result) => {
                         if (result.value) {
-                            window.location.href = internments + '/' + id;
+                            window.location.href = internments + '/' + response.id;
                         }
                     });
                 }
