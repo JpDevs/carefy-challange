@@ -136,7 +136,7 @@ function toggleRegister() {
             <div class="form-group">
                 <label for="code">Código</label>
                 <div class="input-group">
-                    <input type="text" id="code" class="form-control">
+                    <input type="text" id="code" class="form-control" readonly>
                     <div class="input-group-append">
                         <button class="btn btn-primary" type="button" id="generateCode">Gerar</button>
                     </div>
