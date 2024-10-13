@@ -44,7 +44,7 @@ class InternmentsService
             $inconsistences[] = 'entryMinorBirth';
         };
 
-        if ($internment['exit'] <= $internment['entry']) {
+        if (!empty($internment['exit']) && $internment['exit'] <= $internment['entry']) {
             $inconsistences[] = 'exitMinorEqualEntry';
         }
 

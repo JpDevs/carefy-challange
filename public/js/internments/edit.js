@@ -26,7 +26,7 @@ $(document).ready(function () {
             )
             return false
         }
-        if ($('#patients').val() === '' || $('#entryDate').val() === '' || $('#exitDate').val() === '') {
+        if ($('#patients').val() === '' || $('#entryDate').val() === '') {
             Swal.fire(
                 'Erro!',
                 'Preencha todos os dados',
@@ -44,7 +44,7 @@ $(document).ready(function () {
             }
         });
 
-        if (!$('#entryDate').val() || !$('#exitDate').val() || !$('#guide').val()) {
+        if (!$('#entryDate').val() || !$('#guide').val()) {
             Swal.fire(
                 'Erro!',
                 'Preencha todos os campos',

@@ -187,6 +187,9 @@ function initValidsTable() {
             {
                 "data": "exit",
                 "render": function (data, type, row) {
+                    if(data === null){
+                        return 'Não Programada';
+                    }
                     let entryDate = new Date(data + 'T00:00:00');
                     return entryDate.toLocaleDateString('pt-BR');
                 }

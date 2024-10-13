@@ -45,7 +45,7 @@ class CensusService
             $internment = [
                 'guide' => $row['guia'],
                 'entry' => $this->parseDate($row['entrada']),
-                'exit' => $this->parseDate($row['saida'])
+                'exit' => !empty($row['saida']) ? $this->parseDate($row['saida']) : null
             ];
 
             $patientValidation = $this->patientsService->validatePatient($patient);

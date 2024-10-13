@@ -17,7 +17,7 @@ class DraftsController extends Controller
         'patient_id' => ['integer'],
         'guide' => ['string', 'required'],
         'entry' => ['date', 'required'],
-        'exit' => ['date', 'required'],
+        'exit' => ['date', 'nullable'],
     ];
 
     public function __construct(DraftsService $service, PatientsService $patientsService)

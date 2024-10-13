@@ -35,18 +35,23 @@ class Internments extends Model
 
     public static function hasConflicts($patientId, $entry, $exit): bool
     {
+        $nullExit = self::where('patient_id', $patientId)->where('exit', null)->first();
+        if (!empty($nullExit) && $nullExit['entry'] <= $entry) {
+            return true;
+        }
         $data = self::where('patient_id', $patientId)->where(function (Builder $query) use ($entry, $exit) {
-            $query->whereBetween('entry', [$entry, $exit])
-                ->orWhereBetween('exit', [$entry, $exit])
-                ->orWhere(function ($query) use ($entry, $exit) {
-                    $query->where('entry', '<=', $entry)->where('exit', '>=', $exit);
-                });
+            if (!empty($exit)) {
+                $query->whereBetween('entry', [$entry, $exit])
+                    ->orWhereBetween('exit', [$entry, $exit])
+                    ->orWhere(function ($query) use ($entry, $exit) {
+                        $query->where('entry', '<=', $entry)->where('exit', '>=', $exit);
+                    });
+            } else {
+                $query->where('entry', '<=', $entry);
+            }
         })->orderBy('id', 'desc')->first();
 
         if (!empty($data)) {
-            if (empty($data['exit'])) {
-                return true;
-            }
             return $data['exit'] > $entry ?? false;
         }
         return false;

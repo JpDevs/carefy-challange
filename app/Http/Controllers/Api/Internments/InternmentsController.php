@@ -14,7 +14,7 @@ class InternmentsController extends Controller
         'patient_id' => ['required', 'integer'],
         'guide' => ['required', 'string'],
         'entry' => ['required', 'date'],
-        'exit' => ['required', 'date'],
+        'exit' => ['nullable', 'date'],
     ];
 
     public function __construct(InternmentsService $service)
