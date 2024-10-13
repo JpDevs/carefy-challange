@@ -92,7 +92,7 @@
 <div class="row">
     <div class="card shadow mb-4" style="width: 100%;">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Últimas Internações</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Últimas Internações <a href="{{route('internments.index')}}" class="btn btn-sm btn-outline-primary">Ver todas</a></h6>
         </div>
         <div class="card-body">
             <div class="row d-flex justify-content-center" id="tablePreLoader">

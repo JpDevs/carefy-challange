@@ -113,9 +113,9 @@ function updateData() {
                 intervalConflicts: function () {
                     haveIntervalConflicts = true;
                     $('#entryDate').addClass('is-invalid');
-                    $('#entryMessage').html('Intervalo de internamento inválido');
+                    $('#entryMessage').html('Intervalo de internamento inválido. Verifique se não há internações marcadas para este intervalo e tente novamente.');
                     $('#exitDate').addClass('is-invalid');
-                    $('#exitMessage').html('Intervalo de internamento inválido');
+                    $('#exitMessage').html('Intervalo de internamento inválido. Verifique se não há internações marcadas para este intervalo e tente novamente.');
 
                 },
                 entryMinorBirth: function () {
