@@ -43,7 +43,12 @@ class Internments extends Model
                 });
         })->orderBy('id', 'desc')->first();
 
-        return $data['exit'] > $entry;
-
+        if (!empty($data)) {
+            if (empty($data['exit'])) {
+                return true;
+            }
+            return $data['exit'] > $entry ?? false;
+        }
+        return false;
     }
 }

@@ -80,7 +80,7 @@ $(document).ready(function () {
             error: function (error) {
                 Swal.fire(
                     'Erro!',
-                    'Erro ao criar internação. Verifique os dados inseridos e tente novamente.',
+                    'Erro ao criar internação. Verifique se não há internações cadastradas neste periodo e tente novamente.',
                     'error'
                 )
             }
