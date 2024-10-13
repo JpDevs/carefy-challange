@@ -30,4 +30,14 @@ class CensusController extends Controller
         }
     }
 
+    public function truncate()
+    {
+        try {
+            $response = $this->service->truncate();
+            return $this->setResponse($response, 204);
+        } catch (\Exception $e) {
+            return $this->setError($e);
+        }
+    }
+
 }

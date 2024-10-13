@@ -37,5 +37,4 @@ Route::post('/drafts/publish', [DraftsController::class, 'publishAll'])->name('d
 
 Route::get('/statistics', [StatisticsController::class, 'getStatistics'])->name('statistics');
 Route::post('/census/upload', [CensusController::class, 'uploadFile'])->name('census.upload');
-Route::delete('/census/truncate', [CensusController::class, 'truncate'])->name('census.truncate');
 

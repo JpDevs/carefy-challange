@@ -32,7 +32,7 @@ class DraftsController extends Controller
     public function index(Request $request): \Illuminate\Http\JsonResponse
     {
         try {
-            $rules = ['perPage' => 'integer'];
+            $rules = ['perPage' => 'integer', 'onlyValids' => ['nullable', 'boolean']];
             $validated = $this->validated($rules, $request->all());
             $response = $this->service->getAll($validated);
             return $this->setResponse($response);

@@ -44,10 +44,15 @@
         <hr class="sidebar-divider my-0">
 
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item active">
-            <a class="nav-link" href="index.html">
+        <li class="nav-item @if (request()->routeIs('home')) active @endif">
+            <a class="nav-link" href="{{route('home')}}">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span></a>
+        </li>
+        <li class="nav-item @if (request()->routeIs('census.index')) active @endif">
+            <a class="nav-link" href="{{route('census.index')}}">
+                <i class="fas fa-fw fa-file"></i>
+                <span>Censo Hospitalar</span></a>
         </li>
 
         <!-- Divider -->
@@ -59,39 +64,23 @@
         </div>
 
         <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link" href="charts.html">
+        <li class="nav-item @if (request()->routeIs('internments.index')) active @endif">
+            <a class="nav-link" href="{{route('internments.index')}}">
                 <i class="fas fa-fw fa-procedures"></i>
                 <span>Internações</span></a>
         </li>
-        <li class="nav-item">
-        <a class="nav-link" href="charts.html">
-            <i class="fas fa-fw fa-users"></i>
-            <span>Pacientes</span></a>
+        <li class="nav-item @if (request()->routeIs('patients.index')) active @endif">
+            <a class="nav-link" href="{{route('patients.index')}}">
+                <i class="fas fa-fw fa-users"></i>
+                <span>Pacientes</span></a>
         </li>
 
         <!-- Nav Item - Utilities Collapse Menu -->
 
         <!-- Divider -->
-        <hr class="sidebar-divider">
 
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Censo Hospitalar
-        </div>
 
         <!-- Nav Item - Charts -->
-        <li class="nav-item">
-            <a class="nav-link" href="charts.html">
-                <i class="fas fa-fw fa-hourglass-half"></i>
-                <span>Internações Pendentes</span></a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="tables.html">
-                <i class="fas fa-fw fa-file-upload"></i>
-                <span>Importar Censo</span></a>
-        </li>
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">

@@ -15,7 +15,7 @@ class DraftsRepository
 
     public function getAll(array $pagination)
     {
-        return $this->model::with('patient')->orderBy('id', 'desc')->paginate($pagination['perPage'] ?? 15);
+        return $this->model::with('patient')->whereNotNull('inconsistencies')->orderBy('id', 'desc')->paginate($pagination['perPage'] ?? 15);
     }
 
     public function show(string $id)
@@ -26,5 +26,10 @@ class DraftsRepository
     public function getCount()
     {
         return $this->model::count();
+    }
+
+    public function getAllValid()
+    {
+        return $this->model::with('patient')->whereNull('inconsistencies')->orderBy('id', 'desc')->paginate($pagination['perPage'] ?? 15);
     }
 }

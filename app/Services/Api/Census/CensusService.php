@@ -105,4 +105,9 @@ class CensusService
         $output = $output->format('Y-m-d');
         return $output;
     }
+
+    public function truncate()
+    {
+        return $this->draftsService->truncate();
+    }
 }

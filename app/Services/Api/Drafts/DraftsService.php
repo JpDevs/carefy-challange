@@ -43,6 +43,9 @@ class DraftsService
 
     public function getAll(array $validated)
     {
+        if (isset($validated['onlyValids']) && (bool)$validated['onlyValids'] === true) {
+            return $this->repository->getAllValid();
+        }
         return $this->repository->getAll($validated);
     }
 
@@ -119,5 +122,10 @@ class DraftsService
     public function getCount()
     {
         return $this->repository->getCount();
+    }
+
+    public function truncate()
+    {
+        $this->model::truncate();
     }
 }
