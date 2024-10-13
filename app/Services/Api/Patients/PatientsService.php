@@ -103,7 +103,7 @@ class PatientsService
         return Storage::url($image);
     }
 
-    public function getCode(array $validated)
+    public function search(array $validated)
     {
         return $this->repository->findByNameAndBirth($validated);
     }

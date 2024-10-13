@@ -103,7 +103,7 @@ class PatientsController extends Controller
         }
     }
 
-    public function getCode(Request $request)
+    public function search(Request $request): \Illuminate\Http\JsonResponse
     {
         try {
             $rules = [
@@ -111,7 +111,7 @@ class PatientsController extends Controller
                 'name' => ['required', 'string'],
             ];
             $validated = $this->validated($rules,$request->all());
-            $response = $this->service->getCode($validated);
+            $response = $this->service->search($validated);
             return $this->setResponse($response);
         } catch (\Exception $e) {
             return $this->setError($e);

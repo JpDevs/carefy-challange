@@ -63,13 +63,16 @@ class DraftsService
      */
     public function update(int $id, array $validated)
     {
-        $validated['inconsistencies'] = null;
-
-        $patient = $this->patientsService->show($validated['patient_id']);
-        $validate = $this->internmentsService->validateInternment($validated, $patient);
-        if ($validate['status'] === false) {
-            $validated['inconsistencies'] = json_encode($validate['inconsistences']);
+        if(!isset($validated['patient_id'])) {
+            throw new \Exception('Missing patient_id');
         }
+        $validated['inconsistencies'] = null;
+        $patient = $this->patientsService->show($validated['patient_id']);
+        $validateInternment = $this->internmentsService->validateInternment($validated, $patient);
+        if ($validateInternment['status'] === false) {
+            $validated['inconsistencies'] = json_encode(['internment' => $validateInternment['inconsistences']]);
+        }
+        $validated['patient_data'] = null;
         return DB::transaction(function () use ($id, $validated) {
             $data = $this->model::where('id', $id)->firstOrFail();
             $data->update($validated);
