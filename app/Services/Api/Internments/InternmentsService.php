@@ -4,16 +4,19 @@ namespace App\Services\Api\Internments;
 
 use App\Models\Internments;
 use App\Repositories\Api\Internments\InternmentsRepository;
+use App\Repositories\Api\Patients\PatientsRepository;
 use Illuminate\Support\Facades\DB;
 
 class InternmentsService
 {
     protected InternmentsRepository $repository;
+    protected PatientsRepository $patientsRepository;
     protected Internments $model;
 
-    public function __construct(InternmentsRepository $repository, Internments $model)
+    public function __construct(InternmentsRepository $repository, PatientsRepository $patientsRepository, Internments $model)
     {
         $this->repository = $repository;
+        $this->patientsRepository = $patientsRepository;
         $this->model = $model;
     }
 
@@ -93,6 +96,24 @@ class InternmentsService
         return DB::transaction(function () use ($validated) {
             return $this->model::create($validated);
         });
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function manualCreate(array $validated)
+    {
+        if (!isset($validated['patient_id'])) {
+            throw new \Exception('Missing patient_id');
+        }
+
+        $isValid = $this->validateInternment($validated, $this->patientsRepository->show($validated['patient_id']))['status'];
+
+        if (!$isValid) {
+            throw new \Exception('Inconsistencies detected. Please resolve issues and retry');
+        }
+
+        return $this->create($validated);
     }
 
     public function bulkCreate(array $validated)

@@ -80,7 +80,7 @@ $(document).ready(function () {
             error: function (error) {
                 Swal.fire(
                     'Erro!',
-                    error.responseJSON.message,
+                    'Erro ao criar internação. Verifique os dados inseridos e tente novamente.',
                     'error'
                 )
             }

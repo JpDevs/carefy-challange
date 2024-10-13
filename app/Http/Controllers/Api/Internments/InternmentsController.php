@@ -41,7 +41,7 @@ class InternmentsController extends Controller
     {
         try {
             $validated = $this->validated();
-            $response = $this->service->create($validated);
+            $response = $this->service->manualCreate($validated);
             return $this->setResponse($response, 201);
         } catch (\Exception $e) {
             return $this->setError($e);
