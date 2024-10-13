@@ -54,7 +54,6 @@ class InternmentsService
                 'status' => true
             ];
         }
-
         return [
             'status' => false,
             'inconsistences' => $inconsistences
