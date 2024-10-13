@@ -74,7 +74,7 @@ class CensusService
                 $draft['inconsistencies'] = json_encode($draft['inconsistencies']);
             }
             $draft = $draft + $internment;
-//            dd($draft);
+
             $drafts[] = $this->persistDraft($draft);
         }
         return $drafts;

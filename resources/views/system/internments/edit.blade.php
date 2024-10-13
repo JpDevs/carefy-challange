@@ -12,12 +12,12 @@
     <a href="{{route('internments.index')}}" class="btn btn-sm btn-outline-primary"> <- Voltar</a>
 @endsection
 @include('../template.head')
-<!-- Page Heading -->
 
-<!-- Content Row -->
+
+
 <div class="container-fluid" id="errorMessage" style="display: none">
 
-    <!-- 404 Error Text -->
+
     <div class="text-center">
         <i class="fas fa-sad-cry fa-5x text-gray-300 mb-4"></i>
         <h1>Ooops</h1>
@@ -110,7 +110,7 @@
     </div>
 
 
-    <!-- Content Row -->
+
 
 </div>
 <!-- /.container-fluid -->
@@ -119,7 +119,7 @@
     <script src="{{asset('vendor/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
 
-    <!-- Page level custom scripts -->
+
     <script>
         let statisticsRoute = '{{route('internmentsApi.show',$id)}}'
         let patientId = {{$id}};

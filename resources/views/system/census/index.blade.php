@@ -14,9 +14,9 @@
     <button class="btn btn-sm btn-danger" onclick="truncate()"><i class="fas fa-trash mr-2"></i>Deletar Registros</button>
 @endsection
 @include('../template.head')
-<!-- Page Heading -->
 
-<!-- Content Row -->
+
+
 
 <div class="row">
     <div class="card shadow mb-4" style="width: 100%;">
@@ -70,7 +70,7 @@
     <!-- Pie Chart -->
 </div>
 
-<!-- Content Row -->
+
 
 </div>
 <!-- /.container-fluid -->
@@ -79,7 +79,7 @@
     <script src="{{asset('vendor/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
 
-    <!-- Page level custom scripts -->
+
     <script>
         let statisticsRoute = '{{route('drafts.index')}}';
         let uploadRoute = '{{route('census.upload')}}';

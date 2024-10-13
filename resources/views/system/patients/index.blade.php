@@ -11,9 +11,9 @@ $page = 'patients'
     <button onclick="toggleRegister()" class="btn btn-sm btn-outline-primary">Cadastrar</button>
 @endsection
 @include('../template.head')
-<!-- Page Heading -->
 
-<!-- Content Row -->
+
+
 
 <div class="row">
     <div class="card shadow mb-4" style="width: 100%;">
@@ -44,7 +44,7 @@ $page = 'patients'
     <!-- Pie Chart -->
 </div>
 
-<!-- Content Row -->
+
 
 </div>
 <!-- /.container-fluid -->
@@ -53,7 +53,7 @@ $page = 'patients'
     <script src="{{asset('vendor/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
 
-    <!-- Page level custom scripts -->
+
     <script>
         let statisticsRoute = '{{route('patientsApi.index')}}';
     </script>

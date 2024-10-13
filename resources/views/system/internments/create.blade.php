@@ -12,9 +12,9 @@
     <a href="{{route('internments.index')}}" class="btn btn-sm btn-outline-primary"> <- Voltar</a>
 @endsection
 @include('../template.head')
-<!-- Page Heading -->
 
-<!-- Content Row -->
+
+
 
 <div class="row">
     <div class="col-md-12">
@@ -103,7 +103,7 @@
     </div>
 
 
-    <!-- Content Row -->
+
 
 </div>
 <!-- /.container-fluid -->
@@ -112,7 +112,7 @@
     <script src="{{asset('vendor/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
 
-    <!-- Page level custom scripts -->
+
     <script>
         let patientsRoute = '{{route('patientsApi.index')}}';
         let internmentsRoute = '{{route('internmentsApi.index')}}';
