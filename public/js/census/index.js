@@ -297,6 +297,13 @@ function toggleImport() {
         confirmButtonText: 'Importar',
         preConfirm: () => {
             const file = document.getElementById('file').files[0]
+            if(!file){
+                Swal.showValidationMessage(
+                    `Selecione um arquivo`
+                )
+                return false
+            }
+            console.log(file);
             if(file.name.split('.').pop() !== 'csv') {
                 Swal.showValidationMessage(
                     `Arquivo inválido!`
@@ -305,36 +312,38 @@ function toggleImport() {
             }
         }
     }).then((result) => {
-         let formData = new FormData();
-         formData.append('file', document.getElementById('file').files[0]);
-        Swal.fire({
-            title: 'Importando Internações...',
-            html: '<div class="spinner-border text-primary mb-2" role="status"><span class="sr-only">Loading...</span></div>',
-            showConfirmButton: false,
-            allowOutsideClick: false,
-            onOpen: () => {
-                Swal.showLoading()
-            }
-        });
-         $.ajax({
-             url: uploadRoute,
-             type: 'POST',
-             data: formData,
-             cache: false,
-             contentType: false,
-             processData: false,
-             success: function (response) {
-                 Swal.hideLoading()
-                 Swal.fire(
-                     'Importado!',
-                     'Internações importadas com sucesso!',
-                     'success'
-                 ).then(() => {
-                     $('#incongruentsTable').DataTable().ajax.reload(null, false);
-                     $('#validsTable').DataTable().ajax.reload(null, false);
-                 });
-             }
-         })
+        if(result.value) {
+            let formData = new FormData();
+            formData.append('file', document.getElementById('file').files[0]);
+            Swal.fire({
+                title: 'Importando Internações...',
+                html: '<div class="spinner-border text-primary mb-2" role="status"><span class="sr-only">Loading...</span></div>',
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                onOpen: () => {
+                    Swal.showLoading()
+                }
+            });
+            $.ajax({
+                url: uploadRoute,
+                type: 'POST',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    Swal.hideLoading()
+                    Swal.fire(
+                        'Importado!',
+                        'Internações importadas com sucesso!',
+                        'success'
+                    ).then(() => {
+                        $('#incongruentsTable').DataTable().ajax.reload(null, false);
+                        $('#validsTable').DataTable().ajax.reload(null, false);
+                    });
+                }
+            })
+        }
     });
 
     $('#generateCode').click(function () {

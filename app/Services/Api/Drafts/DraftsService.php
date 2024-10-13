@@ -29,13 +29,6 @@ class DraftsService
      */
     public function create(array $data)
     {
-        if (isset($data['patient_id'])) {
-            $patient = $this->patientsService->show($data['patient_id']);
-            $validate = $this->internmentsService->validateInternment($data, $patient);
-            if ($validate['status'] === false) {
-                $data['inconsistencies'] = json_encode($validate['inconsistences']);
-            }
-        }
         return DB::transaction(function () use ($data) {
             return $this->model::create($data);
         });

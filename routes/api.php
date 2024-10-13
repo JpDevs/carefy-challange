@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('/patients', PatientsController::class)->except(['create', 'edit'])->names(['index' => 'patientsApi.index', 'store' => 'patientsApi.store', 'show' => 'patientsApi.show', 'update' => 'patientsApi.update', 'destroy' => 'patientsApi.destroy']);
 Route::get('/patients/{id}/internments', [PatientsController::class, 'getInternments'])->name('patients.internments');
+Route::get('/patients/getCode', [PatientsController::class, 'getCode'])->name('patients.getCode');
 
 
 Route::get('/internments/trash', [InternmentsController::class, 'trash'])->name('internments.trash');

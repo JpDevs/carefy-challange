@@ -102,4 +102,19 @@ class PatientsController extends Controller
             return $this->setError($e);
         }
     }
+
+    public function getCode(Request $request)
+    {
+        try {
+            $rules = [
+                'birth' => ['required','date'],
+                'name' => ['required', 'string'],
+            ];
+            $validated = $this->validated($rules,$request->all());
+            $response = $this->service->getCode($validated);
+            return $this->setResponse($response);
+        } catch (\Exception $e) {
+            return $this->setError($e);
+        }
+    }
 }

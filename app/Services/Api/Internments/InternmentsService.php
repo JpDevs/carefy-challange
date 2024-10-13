@@ -30,6 +30,13 @@ class InternmentsService
             $inconsistences[] = 'sameGuide';
         }
 
+        if (isset($patient['id'])) {
+            $hasConflict = $this->intervalHasConflicts($patient['id'], $internment);
+            if ($hasConflict) {
+                $inconsistences[] = 'intervalConflicts';
+            }
+        }
+
         if ($internment['entry'] < $patient['birth']) {
             $inconsistences[] = 'entryMinorBirth';
         };
@@ -38,12 +45,6 @@ class InternmentsService
             $inconsistences[] = 'exitMinorEqualEntry';
         }
 
-        if (isset($patient['id'])) {
-            $hasConflict = $this->intervalHasConflicts($patient['id'], $internment);
-            if ($hasConflict) {
-                $inconsistences[] = 'intervalConflicts';
-            }
-        }
 
         if (empty($inconsistences)) {
             return [

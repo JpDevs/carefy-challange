@@ -58,5 +58,7 @@ Route::group(['prefix' => 'census'], function () {
     Route::get('/', function () {
         return view('system.census.index');
     })->name('census.index');
-    Route::get('/{id}/edit', function ($id) {})->name('census.edit');
+    Route::get('/{id}/edit', function ($id) {
+        return view('system.census.edit', compact('id'));
+    })->name('census.edit');
 });

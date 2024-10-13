@@ -52,6 +52,7 @@ class CensusService
 
             if ($patientValidation['status'] === false) {
                 $draft['inconsistencies']['patient'] = $patientValidation['inconsistence'];
+                $patient['birth'] = $this->parseDate($patient['birth']);
                 $draft['patient_data'] = json_encode($patient);
             } else {
                 $patientRow = $this->patientsService->findByNameAndBirth($patient);
@@ -73,6 +74,7 @@ class CensusService
                 $draft['inconsistencies'] = json_encode($draft['inconsistencies']);
             }
             $draft = $draft + $internment;
+//            dd($draft);
             $drafts[] = $this->persistDraft($draft);
         }
         return $drafts;
