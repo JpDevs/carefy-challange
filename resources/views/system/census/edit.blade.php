@@ -82,7 +82,7 @@
                             <div class="form-group">
                                 <label for="guide">Guia</label>
                                 <div class="input-group">
-                                    <input id="guide" name="guide" type="text" class="form-control">
+                                    <input id="guide" name="guide" readonly type="text" class="form-control">
                                     <div class="input-group-append">
                                         <button class="btn btn-outline-secondary" type="button"
                                                 onclick="generateCode()">

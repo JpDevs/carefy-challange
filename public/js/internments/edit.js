@@ -9,8 +9,31 @@ let validationMessages = {
 $(document).ready(function () {
     updateData()
     $('#internmentForm').on('submit', function (event) {
-
-        event.preventDefault();
+        let entryDate = new Date($('#entryDate').val() + 'T00:00:00');
+        let exitDate = new Date($('#exitDate').val() + 'T00:00:00');
+        if (exitDate < entryDate) {
+            Swal.fire(
+                'Erro!',
+                'Data de saida deve ser maior que a de entrada',
+                'error'
+            )
+            return false
+        } else if (exitDate < birthDate) {
+            Swal.fire(
+                'Erro!',
+                'Data de saida deve ser maior que a data de nascimento do paciente',
+                'error'
+            )
+            return false
+        }
+        if ($('#patients').val() === '' || $('#entryDate').val() === '' || $('#exitDate').val() === '') {
+            Swal.fire(
+                'Erro!',
+                'Preencha todos os dados',
+                'error'
+            )
+            return false
+        }
         Swal.fire({
             title: 'Aguarde...',
             html: '<div class="spinner-border text-primary mb-2" role="status"><span class="sr-only">Loading...</span></div>',
