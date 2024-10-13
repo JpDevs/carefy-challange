@@ -52,7 +52,8 @@
                         <form method="POST" action="javascript:void(0)" id="draftForm" name="draftForm">
                             <div class="form-group col-md-6" id="codeInput">
                                 <div class="input-group" id="fixCode" style="display: none">
-                                    <input id="patientCode" type="text" class="form-control" readonly>
+                                    <input id="patientCode" type="text" class="form-control">
+
                                         <input type="hidden" name="patient_id" id="patientId">
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary" id="codeAction" type="button"
@@ -82,7 +83,7 @@
                             <div class="form-group">
                                 <label for="guide">Guia</label>
                                 <div class="input-group">
-                                    <input id="guide" name="guide" readonly type="text" class="form-control">
+                                    <input id="guide" name="guide" type="text" class="form-control">
                                     <div class="input-group-append">
                                         <button class="btn btn-outline-secondary" type="button"
                                                 onclick="generateCode()">
