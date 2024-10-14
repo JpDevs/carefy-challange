@@ -125,7 +125,7 @@ function updateStatistics() {
 function deleteInternment(id) {
     Swal.fire({
         title: 'Você tem certeza?',
-        text: "Você poderá recuperar a internação na lixeira.",
+        text: "Esta ação não poderá ser desfeita.",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
