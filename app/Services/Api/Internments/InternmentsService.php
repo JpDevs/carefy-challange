@@ -89,12 +89,16 @@ class InternmentsService
 
     public function create(array $validated)
     {
-        if (isset($validated['id'])) {
-            unset($validated['id']);
+        try {
+            if (isset($validated['id'])) {
+                unset($validated['id']);
+            }
+            return DB::transaction(function () use ($validated) {
+                return $this->model::create($validated);
+            });
+        } catch (\Exception $e) {
+            return false;
         }
-        return DB::transaction(function () use ($validated) {
-            return $this->model::create($validated);
-        });
     }
 
     /**
@@ -115,12 +119,6 @@ class InternmentsService
         return $this->create($validated);
     }
 
-    public function bulkCreate(array $validated)
-    {
-        return DB::transaction(function () use ($validated) {
-            return $this->model::insert($validated);
-        });
-    }
 
     public function update(string $id, array $validated)
     {

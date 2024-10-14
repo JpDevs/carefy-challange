@@ -35,9 +35,13 @@ class DraftsService
      */
     public function create(array $data)
     {
-        return DB::transaction(function () use ($data) {
-            return $this->model::create($data);
-        });
+        try {
+            return DB::transaction(function () use ($data) {
+                return $this->model::create($data);
+            });
+        } catch (\Exception $e) {
+            dd($data);
+        }
     }
 
     public function getAll(array $validated)
@@ -122,17 +126,19 @@ class DraftsService
      */
     public function publishAll()
     {
+        ini_set('max_execution_time', 300);
         $drafts = $this->model::whereNull('inconsistencies')->whereNotNull('patient_id');
-        $guides = $drafts->get()->pluck('guide')->toArray();
 
         if (empty($drafts->get())) {
             return [];
         }
 
-        $insert = $this->internmentsService->bulkCreate($drafts->get(['patient_id', 'guide', 'entry', 'exit'])->toArray());
-
-        if (!$insert) {
-            throw new \Exception('Inconsistencies detected. Please resolve issues and retry');
+        foreach ($drafts->get() as $draft) {
+            $insert = $this->internmentsService->create($draft->toArray());
+            if (!$insert) continue;
+            $guide = $draft['guide'];
+            $this->delete($draft['id']);
+            $this->revalidateGuide($guide);
         }
 
         $output = DB::transaction(function () use ($drafts) {
@@ -141,7 +147,6 @@ class DraftsService
             return $output;
         });
 
-        $this->bulkRevalidateGuide($guides);
         return $output;
 
     }
@@ -150,11 +155,15 @@ class DraftsService
     /**
      * @throws \Exception
      */
-    public function revalidateGuide($guide)
+    public function revalidateGuide($guide): ?array
     {
-        $draft = $this->repository->findByGuide($guide);
-        if (!is_null($draft)) {
-            return $this->addRepeated($draft);
+        $drafts = $this->repository->findByGuide($guide);
+        $output = [];
+        if (!is_null($drafts)) {
+            foreach ($drafts as $draft) {
+                $output[] = $this->addRepeated($draft);
+            }
+            return $output;
         }
         return null;
     }
@@ -162,21 +171,10 @@ class DraftsService
     /**
      * @throws \Exception
      */
-    public function bulkRevalidateGuide($guides): array
-    {
-        $output = [];
-        foreach ($guides as $key => $guide) {
-            $output[$key] = $this->revalidateGuide($guide);
-            if (is_null($output[$key])) {
-                unset($output[$key]);
-            }
-        }
-        return $output;
-    }
 
     public function addRepeated($draft)
     {
-        $inconsistencies = json_decode($draft['inconsistencies'], true);
+        $inconsistencies = isset($draft['inconsistencies']) ? json_decode($draft['inconsistencies'], true) : null;
         $inconsistencies['internment'][] = 'sameGuide';
 
         $draft['inconsistencies'] = json_encode($inconsistencies);

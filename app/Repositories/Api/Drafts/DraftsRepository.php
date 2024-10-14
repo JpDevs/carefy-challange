@@ -35,6 +35,6 @@ class DraftsRepository
 
     public function findByGuide($guide)
     {
-        return $this->model::with('patient')->where('guide', $guide)->first();
+        return $this->model::with('patient')->where('guide', $guide)->get();
     }
 }
