@@ -38,16 +38,16 @@ $page = 'patients'
         </div>
     </div>
 
-    <!-- Area Chart -->
 
-
-    <!-- Pie Chart -->
-</div>
 
 
 
 </div>
-<!-- /.container-fluid -->
+
+
+
+</div>
+
 
 @section('custom-js')
     <script src="{{asset('vendor/datatables/jquery.dataTables.min.js')}}"></script>

@@ -7,6 +7,7 @@ $(document).ready(function () {
     $('#navValids').on('click', function () {
         navValids()
     });
+    setInterval(updateData, 15000);
 });
 
 
@@ -246,15 +247,17 @@ function deleteDraft(id) {
                         'Registro excluido com sucesso!',
                         'success'
                     ).then(() => {
-                        $('#incongruentsTable').DataTable().ajax.reload(null, false);
-                        $('#validsTable').DataTable().ajax.reload(null, false);
+                        updateData()
                     });
                 }
             })
         }
     });
 }
-
+function updateData(){
+    $('#incongruentsTable').DataTable().ajax.reload(null, false);
+    $('#validsTable').DataTable().ajax.reload(null, false);
+}
 function saveValids() {
     Swal.fire({
         title: 'Confirmação',

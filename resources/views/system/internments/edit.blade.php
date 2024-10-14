@@ -1,6 +1,4 @@
-@php
-    $page = 'patients'
-@endphp
+
 @section('custom-css')
     <link href="{{asset('vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
 @endsection
@@ -113,7 +111,7 @@
 
 
 </div>
-<!-- /.container-fluid -->
+
 
 @section('custom-js')
     <script src="{{asset('vendor/datatables/jquery.dataTables.min.js')}}"></script>
