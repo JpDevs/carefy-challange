@@ -258,12 +258,12 @@ function deleteDraft(id) {
 function saveValids() {
     Swal.fire({
         title: 'Confirmação',
-        text: "Deseja inserir TODAS as internações válidas no sistema?",
+        text: "Deseja salvar as internações? note que as internações serão salvas por ordem de inserção, podendo invalidar outros rascunhos.",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Sim, enviar!'
+        confirmButtonText: 'Salvar'
     }).then((result) => {
         if (result.value) {
             Swal.fire({

@@ -10,7 +10,7 @@
 @section('headBtn')
     <br>
     <button class="btn btn-sm btn-outline-primary" onclick="toggleImport()"><i class="fas fa-upload mr-2"></i>Importar CSV</button>
-    <button class="btn btn-sm btn-success" onclick="saveValids()"><i class="fas fa-save mr-2"></i>Registrar internações válidas</button>
+    <button class="btn btn-sm btn-success" onclick="saveValids()"><i class="fas fa-save mr-2"></i>Salvar e revalidar</button>
     <button class="btn btn-sm btn-danger" onclick="truncate()"><i class="fas fa-trash mr-2"></i>Deletar Registros</button>
 @endsection
 @include('../template.head')
