@@ -39,19 +39,14 @@
                     </div>
                     <div class="col-md-9">
                         <h4 class="font-weight-bold">Dados do Paciente</h4>
-                        <div class="form-group row">
-                            <div class="col-md-6">
-                                <label for="patientName">Nome</label>
-                                <div class="form-control" id="patientName"></div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="birthDate">Data de Nascimento</label>
-                                <div class="form-control" id="birthDate"></div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="patientCode">Código</label>
-                            <div id="patientCode" class="form-control"></div>
+
+                        <div class="col-md-6">
+                            <label for="patientName">Nome Completo:</label>
+                            <strong id="patientName">Olga</strong>  <br>
+                            <label for="birthDate">Data de Nascimento:</label>
+                            <strong id="birthDate">07/07/1967</strong> <br>
+                            <label for="patientCode">Código:</label>
+                            <strong id="patientCode">741257</strong>
                         </div>
 
                         <h4 class="font-weight-bold mt-4">Dados da Internação</h4>

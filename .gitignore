@@ -59,3 +59,4 @@ public/js/internments/edit.js~
 database/migrations/2024_10_08_083557_patients.php~
 app/Models/Internments.php~
 public/js/census/index.js~
+resources/views/system/internments/show.blade.php~
