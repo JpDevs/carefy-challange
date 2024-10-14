@@ -41,8 +41,8 @@ function initIncongruentsTable() {
         "processing": true,
         "serverSide": true,
         "ajax": function (data, callback, settings) {
-            var page = (data.start / data.length) + 1;
-            var perPage = data.length;
+            let page = (data.start / data.length) + 1;
+            let perPage = data.length;
 
             $.ajax({
                 url: statisticsRoute,
@@ -146,8 +146,8 @@ function initValidsTable() {
         "processing": true,
         "serverSide": true,
         "ajax": function (data, callback, settings) {
-            var page = (data.start / data.length) + 1;
-            var perPage = data.length;
+            let page = (data.start / data.length) + 1;
+            let perPage = data.length;
 
             $.ajax({
                 url: statisticsRoute,

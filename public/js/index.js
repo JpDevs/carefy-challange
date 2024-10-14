@@ -35,17 +35,10 @@ $('document').ready(function () {
             },
             "processing": true,
             "serverSide": true,
-            "ajax": function (data, callback, settings) {
-                var page = (data.start / data.length) + 1;
-                var perPage = data.length;
-
+            "ajax": function (data, callback, settings) {sudo service mysql restartsudo service mysql stop
                 $.ajax({
                     url: statisticsRoute,
                     type: 'GET',
-                    data: {
-                        page: page,
-                        perPage: perPage
-                    },
                     success: function (response) {
                         $('#tablePreLoader').attr('style', 'display: none !important');
                         $('#dataTable').show();

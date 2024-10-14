@@ -11,9 +11,9 @@ internações em um hospital, com a possibilidade de importação de dados de ce
 O censo hospitalar é uma listagem de pacientes e suas respectivas internações organizada em um arquivo estruturado para
 cadastro em massa das informações em um sistema.
 
-Essa aplicação se encontra em produção, clique <a href="#">aqui</a> para acessar o deploy.
+[//]: # (Essa aplicação se encontra em produção, clique <a href="#">aqui</a> para acessar o deploy.)
 
-Clique <a href="#">aqui</a> para assistir a uma demonstração no YouTube.
+[//]: # (Clique <a href="#">aqui</a> para assistir a uma demonstração no YouTube.)
 
 ## Sumário
 

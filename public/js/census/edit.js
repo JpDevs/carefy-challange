@@ -1,5 +1,5 @@
-var validPatient = true;
-var birth = null;
+let validPatient = true;
+let birth = null;
 $(document).ready(function () {
     updateData();
     $('#entryDate').on('change', function () {
