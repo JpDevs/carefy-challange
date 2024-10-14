@@ -122,10 +122,10 @@
         let internmentAudio = '{{asset('/audio/internmentsNew.mp3')}}';
         let statisticsRoute = '{{route('statistics')}}';
         let internmentsRoute = '{{route('internments.index')}}';
+        let internmentsApi = '{{route('internmentsApi.index')}}';
         let censusAudio = '{{asset('/audio/censusNew.mp3')}}';
     </script>
     <script src="js/index.js"></script>
-{{--    <script src="js/table.js"></script>--}}
 @endsection
 
 @include('template.footer')

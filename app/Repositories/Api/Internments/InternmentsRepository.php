@@ -36,7 +36,7 @@ class InternmentsRepository
 
     public function getCount()
     {
-        return $this->model::where('exit', '<', now())->count();
+        return $this->model::where('exit', '<', now())->orWhere('exit', null)->count();
     }
 
     public function getDoneCount()

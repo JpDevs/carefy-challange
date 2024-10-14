@@ -1,102 +1,135 @@
-let internmentsCount = null;
-let censusCount = null;
-$(document).ready(function () {
-    updateStatistics()
-    setInterval(updateStatistics, 10000);
+let counters = {
+    internments: null,
+    patients: null,
+    drafts: null,
+    done: null
+};
+let table = null;
+$('document').ready(function () {
+    function initTable() {
+        table = $('#dataTable').DataTable({
+            searching: false,
+            ordering: false,
+            "language": {
+                "sEmptyTable": "Nenhum registro encontrado",
+                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": " - filtrados de _MAX_ registros",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "Mostrar _MENU_ registros por página",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sSearch": "Pesquisar",
+                "sZeroRecords": "Nenhum registro encontrado",
+                "oPaginate": {
+                    "sFirst": "Primeiro",
+                    "sLast": "Último",
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                }
+            },
+            "processing": true,
+            "serverSide": true,
+            "ajax": function (data, callback, settings) {
+                var page = (data.start / data.length) + 1;
+                var perPage = data.length;
+
+                $.ajax({
+                    url: statisticsRoute,
+                    type: 'GET',
+                    data: {
+                        page: page,
+                        perPage: perPage
+                    },
+                    success: function (response) {
+                        $('#tablePreLoader').attr('style', 'display: none !important');
+                        $('#dataTable').show();
+
+                        if (counters.drafts !== null && response.drafts > counters.drafts) {
+                            new Audio(censusAudio).play();
+                        }
+
+                        if(counters.internments !== null && response.internments.count > counters.internments) {
+                            new Audio(internmentAudio).play();
+                        }
+
+
+                        counters.internments = response.internments.count;
+                        counters.patients = response.patients;
+                        counters.drafts = response.drafts;
+                        counters.done = response.internments.doneCount;
+
+                        $('#internments').html(counters.internments);
+                        $('#patients').html(counters.patients);
+                        $('#pendingInternments').html(counters.drafts);
+                        $('#doneInternments').html(counters.done);
+
+                        callback({
+                            draw: data.draw,
+                            recordsTotal: response.internments.count,
+                            recordsFiltered: response.internments.count,
+                            data: response.internments.recent.data
+                        });
+                    }
+                });
+            },
+            "columns": [
+                {
+                    "data": "patient", render: function (data, type, row) {
+                        return row.patient.name;
+                    }
+                },
+                {"data": "guide"},
+                {
+                    "data": "entry",
+                    "render": function (data, type, row) {
+                        let entryDate = new Date(data + 'T00:00:00');
+                        return entryDate.toLocaleDateString('pt-BR');
+                    }
+                },
+                {
+                    "data": "exit",
+                    "render": function (data, type, row) {
+                        if (data === null) {
+                            return 'Não Programada';
+                        }
+                        let exitDate = new Date(data + 'T00:00:00');
+                        return exitDate.toLocaleDateString('pt-BR');
+                    }
+                },
+                {
+                    "data": null,
+                    "render": function (data, type, row) {
+                        return `
+                        <a class="btn btn-primary" href="/internments/` + row.id + `"><i class="fas fa-eye"></i></a>
+                        <a class="btn btn-info" href="/internments/` + row.id + `/edit"><i class="fas fa-edit"></i></a>
+                        <button class="btn btn-danger" onclick="deleteInternment(${row.id})"><i class="fas fa-trash"></i></button>
+                    `;
+                    }
+                }
+            ],
+            "pageLength": 10,
+            "lengthMenu": [5, 10, 25, 50],
+            "paging": false
+        });
+    }
+    initTable();
+
+    setInterval(updateStatistics, 15000);
+
 });
 
 
-
 function updateStatistics() {
-    let table = $('#dataTable tbody');
-    let dataTable = $('#dataTable')
-    $.ajax({
-        url: statisticsRoute,
-        method: "GET",
-        xhrFields: {
-            withCredentials: true
-        },
-        success: function (data) {
-            setTable(table, dataTable, data)
-            setInternmentsCount(data.internments.count)
-            setPendingInternmentsCount(data.drafts)
-            setDoneInternmentsCount(data.internments.doneCount)
-            setPatientsCount(data.patients)
-        }
-    });
+    table.ajax.reload(null, false);
 }
 
-function setTable(table, dataTable, data) {
-    table.empty();
-    let internments = data.internments.recent.data
-    $.each(internments, function (index, internment) {
-
-        let entryDate = new Date(internment.entry + 'T00:00:00');
-        let exitDate = new Date(internment.exit + 'T00:00:00');
-        let entryFormatted = entryDate.toLocaleDateString('pt-BR');
-        let exitFormatted = null;
-        if(internment.exit !== null) {
-            let exitFormatted = exitDate.toLocaleDateString('pt-BR');
-        } else {
-            exitFormatted = 'Não Programada'
-        }
-
-        table.append("<tr><td>" + internment.patient.name + "</td>" +
-            "<td>" + internment.guide + "</td>" +
-            "<td>" + entryFormatted + "</td>" +
-            "<td>" + exitFormatted + "</td>" +
-            `<td><a href='`+internmentsRoute+`/`+internment.id+`' class="btn btn-primary"><i class="fas fa-eye"></i></a>` +
-            `                        <button class="btn btn-danger" onclick='toggleDelete(`+internment.id+`)'><i class="fas fa-trash"></i></button>`)
-    });
-    if (!dataTable.DataTable) {
-        dataTable.DataTable({
-            "searching": false,
-            "paging": false,
-            "info": false,
-            "language": {
-                "sEmptyTable": "Nenhum registro encontrado",
-            }
-        });
-    }
-    $('#tablePreLoader').attr('style', 'display: none !important');
-    dataTable.show()
-}
-
-function setInternmentsCount(count) {
-    let card = $('#internments')
-    card.text(count)
-    if (internmentsCount !== null && count > internmentsCount) {
-        let audio = new Audio(internmentAudio);
-        audio.play();
-    }
-    internmentsCount = count;
-    return count;
-}
-
-function setPendingInternmentsCount(count) {
-    let card = $('#pendingInternments')
-    card.text(count)
-    if (censusCount !== null && count > censusCount) {
-        let audio = new Audio(censusAudio);
-        audio.play();
-    }
-    censusCount = count;
-    return count;
-}
-
-function setDoneInternmentsCount(count) {
-    let card = $('#doneInternments')
-    card.text(count)
-    return count;
-}
-
-function setPatientsCount(count) {
-    let card = $('#patients')
-    card.text(count)
-    return count;
-}
-
-function toggleDelete(id) {
+function deleteInternment(id) {
     Swal.fire({
         title: 'Você tem certeza?',
         text: "Você poderá recuperar a internação na lixeira.",
@@ -108,7 +141,7 @@ function toggleDelete(id) {
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: internmentsRoute + '/' + id,
+                url: internmentsApi + '/' + id,
                 type: 'DELETE',
                 success: function (response) {
                     Swal.fire(
@@ -116,7 +149,8 @@ function toggleDelete(id) {
                         'Registro excluido com sucesso!',
                         'success'
                     ).then(() => {
-                        $('#dataTable').DataTable().ajax.reload(null, false);
+                        // counters.internments.count = counters.internments.count - 1;
+                        updateStatistics();
                     });
                 }
             })
