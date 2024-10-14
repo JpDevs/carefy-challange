@@ -35,13 +35,9 @@ class DraftsService
      */
     public function create(array $data)
     {
-        try {
-            return DB::transaction(function () use ($data) {
-                return $this->model::create($data);
-            });
-        } catch (\Exception $e) {
-            dd($data);
-        }
+        return DB::transaction(function () use ($data) {
+            return $this->model::create($data);
+        });
     }
 
     public function getAll(array $validated)
