@@ -35,7 +35,7 @@ $('document').ready(function () {
             },
             "processing": true,
             "serverSide": true,
-            "ajax": function (data, callback, settings) {sudo service mysql restartsudo service mysql stop
+            "ajax": function (data, callback, settings) {
                 $.ajax({
                     url: statisticsRoute,
                     type: 'GET',
@@ -125,7 +125,7 @@ function updateStatistics() {
 function deleteInternment(id) {
     Swal.fire({
         title: 'Você tem certeza?',
-        text: "Esta ação não poderá ser desfeita.",
+        text: "Você poderá recuperar a internação na lixeira.",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
