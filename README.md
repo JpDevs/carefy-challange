@@ -13,7 +13,7 @@ cadastro em massa das informações em um sistema.
 
 Essa aplicação se encontra em produção, clique <a href="http://carefy.jpdevs.cloud/" target="_blank">aqui</a> para acessar o deploy.
 
-[//]: # (Clique <a href="#">aqui</a> para assistir a uma demonstração no YouTube.)
+Clique <a href="https://www.youtube.com/watch?v=wRGJcvehULs" target="_blank">aqui</a> para assistir a uma demonstração no YouTube.
 
 ## Sumário
 
