@@ -2,9 +2,9 @@ let patientName = null;
 $(document).ready(function () {
     updateData()
     $('#patientImage').change(function () {
-        var file = this.files[0];
-        var fileType = file["type"];
-        var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+        let file = this.files[0];
+        let fileType = file["type"];
+        let validImageTypes = ["image/gif", "image/jpeg", "image/png"];
         if ($.inArray(fileType, validImageTypes) < 0) {
             Swal.fire(
                 'Erro!',
@@ -14,7 +14,7 @@ $(document).ready(function () {
             this.value = '';
             return false;
         }
-        var reader = new FileReader();
+        let reader = new FileReader();
         reader.onload = function (event) {
             $('#patientImagePreview').attr("src", event.target.result);
         }
