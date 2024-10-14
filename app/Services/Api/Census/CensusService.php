@@ -103,11 +103,7 @@ class CensusService
 
     private function parseDate(string $date): string
     {
-        try{
         $output = Carbon::createFromFormat('d/m/Y', $date);
-        } catch (\Exception $e) {
-            dd($date);
-        }
         $output = $output->format('Y-m-d');
         return $output;
     }
